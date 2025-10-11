@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useEffect } from 'react';
 import { OperatingHours } from '@/lib/types';
 import { cn } from '@/lib/utils';
+import { initialShopSettings } from '@/lib/database';
 
 type OperatingHoursFormValues = z.infer<typeof operatingHoursSchema>;
 
@@ -24,11 +25,22 @@ export default function OperatingHoursForm() {
 
   const form = useForm<OperatingHoursFormValues>({
     resolver: zodResolver(operatingHoursSchema),
-    defaultValues: settings.operatingHours,
+    defaultValues: settings.operatingHours || initialShopSettings.operatingHours,
   });
 
   useEffect(() => {
-    form.reset(settings.operatingHours);
+    // Ensure form values are never undefined
+    const currentHours = settings.operatingHours || initialShopSettings.operatingHours;
+    const sanitizedHours = daysOfWeek.reduce((acc, day) => {
+        const dayHours = currentHours[day];
+        acc[day] = {
+            isOpen: dayHours.isOpen,
+            open: dayHours.open || '',
+            close: dayHours.close || '',
+        };
+        return acc;
+    }, {} as OperatingHoursFormValues);
+    form.reset(sanitizedHours);
   }, [settings.operatingHours, form]);
 
   function onSubmit(data: OperatingHoursFormValues) {

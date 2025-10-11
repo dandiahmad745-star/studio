@@ -15,7 +15,7 @@ export const promotionSchema = z.object({
   description: z.string().min(1, { message: 'Description is required' }),
   validFrom: z.date({ required_error: 'Start date is required.' }),
   validUntil: z.date({ required_error: 'End date is required.' }),
-}).refine(data => data.validUntil > data.validFrom, {
+}).refine(data => !data.validFrom || !data.validUntil || data.validUntil > data.validFrom, {
   message: 'End date must be after start date',
   path: ['validUntil'],
 });

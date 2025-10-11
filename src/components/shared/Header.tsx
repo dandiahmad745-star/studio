@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Coffee, Menu, Gift, MessageSquare } from 'lucide-react';
+import { Coffee, Menu, Gift, MessageSquare, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { Skeleton } from '../ui/skeleton';
 import { useEffect, useState } from 'react';
 import { getShopStatus } from '@/lib/shop-status';
+import { Badge } from '../ui/badge';
 
 const navLinks = [
   { href: '/', label: 'Menu', icon: Coffee },
@@ -58,21 +59,27 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-3">
             {isLoading ? (
                 <Skeleton className="h-10 w-10 rounded-full" />
             ) : settings.logo && (
                 <Image src={settings.logo} alt="logo" width={40} height={40} className="rounded-full" />
             )}
-          <div className='flex flex-col'>
-            <span className="font-headline text-xl font-bold sm:inline-block">
+          <div className='flex flex-col gap-0.5'>
+            <span className="font-headline text-xl font-bold leading-none sm:inline-block">
                 {isLoading ? <Skeleton className="h-6 w-32" /> : settings.name}
             </span>
             {shopStatus && (
-                <div className='flex items-center gap-1.5'>
-                    <span className={cn('h-2.5 w-2.5 rounded-full', shopStatus.isOpen ? 'bg-green-500' : 'bg-red-500')}></span>
-                    <p className='text-xs text-muted-foreground'>{shopStatus.message}</p>
-                </div>
+                 <Badge 
+                    variant={shopStatus.isOpen ? 'default' : 'destructive'} 
+                    className={cn(
+                        "w-fit gap-1.5 px-2 py-0.5 text-xs font-medium leading-none",
+                        shopStatus.isOpen ? "bg-green-600/10 text-green-700 border-green-600/20" : "bg-red-600/10 text-red-700 border-red-600/20"
+                    )}
+                >
+                    <Clock className="h-3 w-3" />
+                    <span>{shopStatus.message}</span>
+                </Badge>
             )}
           </div>
         </Link>

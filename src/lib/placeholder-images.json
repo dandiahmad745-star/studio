@@ -1,3 +1,40 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "coffee-1",
+      "description": "A cup of latte with art",
+      "imageUrl": "https://picsum.photos/seed/coffee1/400/300",
+      "imageHint": "latte art"
+    },
+    {
+      "id": "coffee-2",
+      "description": "A cup of black coffee",
+      "imageUrl": "https://picsum.photos/seed/coffee2/400/300",
+      "imageHint": "black coffee"
+    },
+    {
+      "id": "pastry-1",
+      "description": "A croissant on a plate",
+      "imageUrl": "https://picsum.photos/seed/pastry1/400/300",
+      "imageHint": "croissant plate"
+    },
+    {
+      "id": "sandwich-1",
+      "description": "A delicious club sandwich",
+      "imageUrl": "https://picsum.photos/seed/sandwich1/400/300",
+      "imageHint": "club sandwich"
+    },
+    {
+      "id": "juice-1",
+      "description": "Freshly squeezed orange juice",
+      "imageUrl": "https://picsum.photos/seed/juice1/400/300",
+      "imageHint": "orange juice"
+    },
+    {
+      "id": "cafe-logo",
+      "description": "Kopimi Kafe logo",
+      "imageUrl": "https://picsum.photos/seed/logo/200/200",
+      "imageHint": "cafe logo"
+    }
+  ]
 }

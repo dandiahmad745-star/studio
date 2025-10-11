@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useData } from "../Providers";
 import { Skeleton } from "../ui/skeleton";
 
@@ -21,10 +22,17 @@ export default function Footer() {
 
     return (
         <footer className="bg-muted text-muted-foreground">
-            <div className="container mx-auto px-4 py-6 text-center text-sm">
-                <p className="font-bold">{settings.name}</p>
-                <p>{settings.address}</p>
-                <p>{settings.phone} | {settings.email}</p>
+            <div className="container mx-auto flex flex-col items-center gap-4 px-4 py-6 text-center text-sm">
+                <div>
+                    <p className="font-bold">{settings.name}</p>
+                    <p>{settings.address}</p>
+                    <p>{settings.phone} | {settings.email}</p>
+                </div>
+                <div>
+                    <Link href="/absen" className="font-medium text-primary hover:underline">
+                        Portal Barista
+                    </Link>
+                </div>
                 <p className="mt-4">&copy; {new Date().getFullYear()} {settings.name}. All Rights Reserved.</p>
             </div>
         </footer>

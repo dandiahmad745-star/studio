@@ -280,7 +280,7 @@ export default function BaristaAbsenPage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid h-auto w-full grid-cols-2 sm:grid-cols-4">
             <TabsTrigger value="clock-in">Absen Masuk</TabsTrigger>
             <TabsTrigger value="schedule">Jadwal Minggu Ini</TabsTrigger>
             <TabsTrigger value="leave">Ajukan Cuti/Izin</TabsTrigger>
@@ -352,3 +352,4 @@ export default function BaristaAbsenPage() {
     
 
     
+

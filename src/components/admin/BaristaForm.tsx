@@ -15,6 +15,7 @@ import { useData } from '../Providers';
 import { useToast } from '@/hooks/use-toast';
 import { Barista } from '@/lib/types';
 import Image from 'next/image';
+import { compressImage } from '@/lib/image-compression';
 
 type BaristaFormValues = z.infer<typeof baristaSchema>;
 
@@ -65,16 +66,21 @@ export default function BaristaForm({ isOpen, setIsOpen, barista }: BaristaFormP
     }
   }, [barista, form, isOpen]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        form.setValue('image', result, { shouldValidate: true });
-        setImagePreview(result);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const compressedDataUrl = await compressImage(file, { maxWidth: 400, maxHeight: 400 });
+        form.setValue('image', compressedDataUrl, { shouldValidate: true });
+        setImagePreview(compressedDataUrl);
+      } catch (error) {
+        console.error("Failed to compress image", error);
+        toast({
+          variant: "destructive",
+          title: "Image Error",
+          description: "Could not process the image. Please try another one."
+        });
+      }
     }
   };
 

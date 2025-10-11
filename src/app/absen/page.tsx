@@ -1,16 +1,85 @@
+
 "use client";
 
-import React from "react";
+import React, { useState, useMemo } from "react";
 import { useData } from "@/components/Providers";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { addDays, format, startOfWeek } from 'date-fns';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LeaveRequestForm from "@/components/barista/LeaveRequestForm";
-import { Schedule } from "@/lib/types";
+import { Schedule, Barista, LeaveRequest } from "@/lib/types";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+
+const LeaveRequestHistory = ({ requests, baristas }: { requests: LeaveRequest[], baristas: Barista[] }) => {
+    const [selectedBaristaId, setSelectedBaristaId] = useState<string>('');
+
+    const filteredRequests = useMemo(() => {
+        if (!selectedBaristaId) return [];
+        return requests
+            .filter(req => req.baristaId === selectedBaristaId)
+            .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+    }, [requests, selectedBaristaId]);
+    
+    const getBaristaName = (baristaId: string) => {
+        return baristas.find(b => b.id === baristaId)?.name || 'Unknown';
+    };
+
+
+    return (
+        <div className="space-y-4">
+            <div className="max-w-xs">
+                <Select onValueChange={setSelectedBaristaId} value={selectedBaristaId}>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Pilih nama Anda untuk melihat riwayat" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {baristas.map(barista => (
+                            <SelectItem key={barista.id} value={barista.id}>{barista.name}</SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </div>
+            
+            {selectedBaristaId ? (
+                filteredRequests.length > 0 ? (
+                    <div className="space-y-4">
+                        {filteredRequests.map(request => (
+                             <div key={request.id} className="p-4 border rounded-lg flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+                                <div>
+                                    <p className="font-semibold">{request.reason}</p>
+                                    <p className="text-sm text-muted-foreground">
+                                        {format(new Date(request.startDate), 'd MMM yyyy')} - {format(new Date(request.endDate), 'd MMM yyyy')}
+                                    </p>
+                                </div>
+                                <Badge variant={
+                                    request.status === 'Approved' ? 'default' :
+                                    request.status === 'Rejected' ? 'destructive' :
+                                    'secondary'
+                                } className="w-fit">
+                                    {request.status}
+                                </Badge>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center text-muted-foreground border-dashed border p-8 rounded-lg">
+                        <p>Belum ada riwayat pengajuan untuk {getBaristaName(selectedBaristaId)}.</p>
+                    </div>
+                )
+            ) : (
+                <div className="text-center text-muted-foreground border-dashed border p-8 rounded-lg">
+                    <p>Pilih nama Anda di atas untuk melihat riwayat pengajuan.</p>
+                </div>
+            )}
+        </div>
+    );
+};
+
 
 export default function BaristaAbsenPage() {
-  const { baristas, schedules, isLoading } = useData();
+  const { baristas, schedules, leaveRequests, isLoading } = useData();
 
   if (isLoading) {
     return (
@@ -37,14 +106,15 @@ export default function BaristaAbsenPage() {
           Portal Barista
         </h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Lihat jadwal Anda dan ajukan cuti di sini.
+          Lihat jadwal Anda, ajukan cuti, dan lihat riwayat pengajuan di sini.
         </p>
       </div>
 
       <Tabs defaultValue="schedule">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="schedule">Jadwal Minggu Ini</TabsTrigger>
             <TabsTrigger value="leave">Ajukan Cuti/Izin</TabsTrigger>
+            <TabsTrigger value="history">Riwayat Pengajuan</TabsTrigger>
         </TabsList>
         <TabsContent value="schedule">
             <Card>
@@ -83,9 +153,21 @@ export default function BaristaAbsenPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>Formulir Pengajuan Cuti/Izin</CardTitle>
+                    <CardDescription>Isi formulir di bawah ini untuk mengajukan cuti atau izin.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <LeaveRequestForm />
+                </CardContent>
+            </Card>
+        </TabsContent>
+        <TabsContent value="history">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Riwayat Pengajuan Cuti/Izin</CardTitle>
+                    <CardDescription>Lihat status semua pengajuan Anda di sini.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <LeaveRequestHistory requests={leaveRequests} baristas={baristas} />
                 </CardContent>
             </Card>
         </TabsContent>

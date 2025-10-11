@@ -66,7 +66,7 @@ export default function PromoForm({ isOpen, setIsOpen, promo }: PromoFormProps) 
 
     if (promo) {
       // Edit
-      setPromotions((prev) => prev.map((p) => (p.id === promo.id ? { ...p, ...promotionData, id: p.id } : p)));
+      setPromotions((prev) => prev.map((p) => (p.id === promo.id ? { ...promotionData, id: p.id } : p)));
       toast({ title: 'Success', description: 'Promotion updated.' });
     } else {
       // Add

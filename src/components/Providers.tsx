@@ -10,6 +10,7 @@ import { initialMenuItems, initialPromotions, initialReviews, initialShopSetting
 function usePersistentState<T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>, boolean] {
   const [isInitialized, setIsInitialized] = useState(false);
 
+  // Initialize state with the initial value to prevent mismatches during server-side rendering
   const [state, setState] = useState<T>(initialValue);
 
   useEffect(() => {
@@ -21,27 +22,30 @@ function usePersistentState<T>(key: string, initialValue: T): [T, React.Dispatch
       } else {
         // If no item in localStorage, initialize it with the default value
         window.localStorage.setItem(key, JSON.stringify(initialValue));
-        setState(initialValue);
+        // No need to setState here as it's already set to initialValue
       }
     } catch (error) {
       console.error(`Error reading localStorage key “${key}”:`, error);
-      setState(initialValue);
+      // State is already initialValue
     } finally {
         setIsInitialized(true);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
-  useEffect(() => {
-    if (isInitialized) {
+  const setPersistedState: React.Dispatch<React.SetStateAction<T>> = (value) => {
+    setState((prevState) => {
+      const newState = typeof value === 'function' ? (value as (prevState: T) => T)(prevState) : value;
       try {
-        window.localStorage.setItem(key, JSON.stringify(state));
+        window.localStorage.setItem(key, JSON.stringify(newState));
       } catch (error) {
         console.error(`Error setting localStorage key “${key}”:`, error);
       }
-    }
-  }, [key, state, isInitialized]);
+      return newState;
+    });
+  };
 
-  return [state, setState, isInitialized];
+  return [state, setPersistedState, isInitialized];
 }
 
 

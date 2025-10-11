@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Coffee, Menu, Gift, MessageSquare, Clock } from 'lucide-react';
+import { Coffee, Menu, Gift, MessageSquare, Clock, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
@@ -17,6 +17,7 @@ const navLinks = [
   { href: '/', label: 'Menu', icon: Coffee },
   { href: '/promotions', label: 'Promotions', icon: Gift },
   { href: '/reviews', label: 'Reviews', icon: MessageSquare },
+  { href: '/baristas', label: 'Our Baristas', icon: Users },
 ];
 
 export default function Header() {
@@ -59,31 +60,42 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-3">
-            {isLoading ? (
-                <Skeleton className="h-10 w-10 rounded-full" />
-            ) : settings.logo && (
-                <Image src={settings.logo} alt="logo" width={40} height={40} className="rounded-full" />
-            )}
-            <div className='flex flex-col'>
-              <span className="font-headline text-xl font-bold leading-none">
-                  {isLoading ? <Skeleton className="h-6 w-32" /> : settings.name}
-              </span>
-              {shopStatus && (
-                  <Badge 
-                      variant={shopStatus.isOpen ? 'default' : 'destructive'} 
-                      className={cn(
-                          "mt-1 w-fit gap-1.5 px-2 py-0.5 text-xs font-medium leading-none",
-                          shopStatus.isOpen ? "bg-green-600/10 text-green-700 border-green-600/20" : "bg-red-600/10 text-red-700 border-red-600/20"
-                      )}
-                  >
-                      <Clock className="h-3 w-3" />
-                      <span>{shopStatus.message}</span>
-                  </Badge>
-              )}
-            </div>
+          {isLoading ? (
+            <Skeleton className="h-10 w-10 rounded-full" />
+          ) : (
+            settings.logo && (
+              <Image
+                src={settings.logo}
+                alt="logo"
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+            )
+          )}
         </Link>
+        <div className="flex flex-col items-start leading-none">
+          <span className="font-headline text-xl font-bold">
+            {isLoading ? <Skeleton className="h-6 w-32" /> : settings.name}
+          </span>
+          {shopStatus && (
+            <Badge
+              variant={shopStatus.isOpen ? 'default' : 'destructive'}
+              className={cn(
+                'mt-1 w-fit gap-1.5 px-2 py-0.5 text-xs font-medium leading-none',
+                shopStatus.isOpen
+                  ? 'bg-green-600/10 text-green-700 border-green-600/20'
+                  : 'bg-red-600/10 text-red-700 border-red-600/20'
+              )}
+            >
+              <Clock className="h-3 w-3" />
+              <span>{shopStatus.message}</span>
+            </Badge>
+          )}
+        </div>
 
-        <div className="flex items-center gap-2">
+
+        <div className="flex flex-1 items-center justify-end gap-2">
             <nav className="hidden items-center gap-2 md:flex">
                 {renderNavLinks()}
             </nav>

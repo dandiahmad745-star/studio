@@ -35,8 +35,8 @@ export const reviewReplySchema = z.object({
 
 const dayHoursSchema = z.object({
     isOpen: z.boolean(),
-    open: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: "Invalid time format (HH:mm)" }),
-    close: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: "Invalid time format (HH:mm)" }),
+    open: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: "Invalid time format (HH:mm)" }).or(z.literal('')),
+    close: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: "Invalid time format (HH:mm)" }).or(z.literal('')),
 });
 
 export const operatingHoursSchema = z.object({
@@ -57,4 +57,11 @@ export const settingsSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
   logo: z.string().min(1, { message: 'Logo is required' }),
   operatingHours: operatingHoursSchema.optional(),
+});
+
+export const baristaSchema = z.object({
+    id: z.string().optional(),
+    name: z.string().min(1, { message: "Name is required" }),
+    bio: z.string().min(1, { message: "Bio is required" }),
+    image: z.string().min(1, { message: "Image is required" }),
 });

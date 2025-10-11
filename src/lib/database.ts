@@ -1,4 +1,4 @@
-import { MenuItem, Promotion, Review, ShopSettings } from '@/lib/types';
+import { MenuItem, Promotion, Review, ShopSettings, Barista } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const findImage = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
@@ -97,3 +97,18 @@ export const initialShopSettings: ShopSettings = {
     sunday: { isOpen: false, open: '09:00', close: '23:00' },
   }
 };
+
+export const initialBaristas: Barista[] = [
+    {
+      id: 'barista-1',
+      name: 'Rian',
+      bio: 'Rian adalah kepala barista kami dengan pengalaman lebih dari 5 tahun. Spesialisasinya adalah latte art dan manual brew.',
+      image: findImage('barista-1'),
+    },
+    {
+      id: 'barista-2',
+      name: 'Sari',
+      bio: 'Sari sangat bersemangat tentang kopi dan suka bereksperimen dengan resep-resep baru. Jangan ragu untuk bertanya rekomendasinya!',
+      image: findImage('barista-2'),
+    },
+];

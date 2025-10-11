@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import PageHeader from '@/components/admin/PageHeader';
-import { Coffee, Gift, MessageSquare, Settings, ArrowRight } from 'lucide-react';
+import { Coffee, Gift, MessageSquare, Settings, ArrowRight, Users } from 'lucide-react';
 import { useData } from '@/components/Providers';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -27,6 +27,12 @@ const dashboardItems = [
     icon: MessageSquare,
   },
   {
+    href: '/admin/baristas',
+    title: 'Barista Management',
+    description: 'Manage your team of baristas.',
+    icon: Users,
+  },
+  {
     href: '/admin/settings',
     title: 'Shop Settings',
     description: 'Manage general shop information.',
@@ -42,7 +48,7 @@ export default function AdminDashboardPage() {
             <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
                 <PageHeader title="Admin Dashboard" description="Welcome to your shop management center." />
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                    {[...Array(4)].map((_, i) => (
+                    {[...Array(5)].map((_, i) => (
                         <Card key={i}>
                             <CardHeader>
                                 <Skeleton className="h-6 w-3/4" />

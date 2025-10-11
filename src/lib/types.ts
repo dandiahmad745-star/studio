@@ -43,3 +43,10 @@ export interface ShopSettings {
   logo: string; // Base64 data URL or placeholder URL
   operatingHours: OperatingHours;
 }
+
+export interface Barista {
+  id: string;
+  name: string;
+  bio: string;
+  image: string;
+}

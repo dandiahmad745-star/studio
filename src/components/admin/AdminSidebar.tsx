@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarFooter
 } from '../ui/sidebar';
-import { Coffee, Gift, LayoutDashboard, LogOut, MessageSquare, Settings } from 'lucide-react';
+import { Coffee, Gift, LayoutDashboard, LogOut, MessageSquare, Settings, Users } from 'lucide-react';
 import Image from 'next/image';
 
 const adminNavLinks = [
@@ -20,6 +20,7 @@ const adminNavLinks = [
   { href: '/admin/menu', label: 'Menu', icon: Coffee },
   { href: '/admin/promotions', label: 'Promotions', icon: Gift },
   { href: '/admin/reviews', label: 'Reviews', icon: MessageSquare },
+  { href: '/admin/baristas', label: 'Baristas', icon: Users },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
@@ -47,7 +48,7 @@ export default function AdminSidebar() {
             <SidebarMenuItem key={link.href}>
               <Link href={link.href} className="w-full">
                 <SidebarMenuButton
-                  isActive={pathname === link.href}
+                  isActive={pathname.startsWith(link.href) && (link.href !== '/admin' || pathname === '/admin')}
                   className="w-full justify-start"
                 >
                   <link.icon className="h-4 w-4" />

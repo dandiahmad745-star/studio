@@ -35,6 +35,18 @@
       "description": "Kopimi Kafe logo",
       "imageUrl": "https://picsum.photos/seed/logo/200/200",
       "imageHint": "cafe logo"
+    },
+    {
+      "id": "barista-1",
+      "description": "A friendly male barista",
+      "imageUrl": "https://picsum.photos/seed/barista1/400/400",
+      "imageHint": "male barista"
+    },
+    {
+      "id": "barista-2",
+      "description": "A friendly female barista",
+      "imageUrl": "https://picsum.photos/seed/barista2/400/400",
+      "imageHint": "female barista"
     }
   ]
 }

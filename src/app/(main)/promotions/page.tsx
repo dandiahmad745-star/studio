@@ -2,10 +2,11 @@
 
 import { useData } from "@/components/Providers";
 import PromoCard from "@/components/shared/PromoCard";
+import Loading from '../loading';
 import { useMemo } from "react";
 
 export default function PromotionsPage() {
-  const { promotions } = useData();
+  const { promotions, isLoading } = useData();
 
   const activePromotions = useMemo(() => {
     const now = new Date();
@@ -15,6 +16,10 @@ export default function PromotionsPage() {
         return now >= from && now <= until;
     });
   }, [promotions]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 sm:py-12">

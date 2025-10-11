@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { cn } from '@/lib/utils';
 import { useData } from '../Providers';
 import Image from 'next/image';
+import { Skeleton } from '../ui/skeleton';
 
 const navLinks = [
   { href: '/', label: 'Menu', icon: Coffee },
@@ -18,7 +19,7 @@ const navLinks = [
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
-  const { settings } = useData();
+  const { settings, isLoading } = useData();
 
   const renderNavLinks = (isMobile = false) =>
     navLinks.map((link) => (
@@ -42,11 +43,13 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
-            {settings.logo && (
+            {isLoading ? (
+                <Skeleton className="h-10 w-10 rounded-full" />
+            ) : settings.logo && (
                 <Image src={settings.logo} alt="logo" width={40} height={40} className="rounded-full" />
             )}
           <span className="hidden font-headline text-xl font-bold sm:inline-block">
-            {settings.name}
+             {isLoading ? <Skeleton className="h-6 w-32" /> : settings.name}
           </span>
         </Link>
 
@@ -71,11 +74,13 @@ export default function Header() {
                 </SheetHeader>
                 <div className="flex h-full flex-col">
                     <Link href="/" className="mb-6 flex items-center gap-2">
-                        {settings.logo && (
+                        {isLoading ? (
+                            <Skeleton className="h-10 w-10 rounded-full" />
+                        ) : settings.logo && (
                             <Image src={settings.logo} alt="logo" width={40} height={40} className="rounded-full" />
                         )}
                         <span className="font-headline text-xl font-bold">
-                            {settings.name}
+                            {isLoading ? <Skeleton className="h-6 w-32" /> : settings.name}
                         </span>
                     </Link>
                   <nav className="flex flex-col gap-4">

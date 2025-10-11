@@ -2,10 +2,11 @@
 
 import { useData } from '@/components/Providers';
 import MenuItemCard from '@/components/shared/MenuItemCard';
+import Loading from './loading';
 import { useMemo } from 'react';
 
 export default function HomePage() {
-  const { menuItems } = useData();
+  const { menuItems, isLoading } = useData();
 
   const categorizedMenu = useMemo(() => {
     return menuItems.reduce((acc, item) => {
@@ -25,6 +26,10 @@ export default function HomePage() {
         return indexA - indexB;
     });
   }, [categorizedMenu]);
+  
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 sm:py-12">

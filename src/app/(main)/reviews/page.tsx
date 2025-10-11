@@ -4,11 +4,16 @@ import { useData } from "@/components/Providers";
 import ReviewCard from "@/components/shared/ReviewCard";
 import ReviewForm from "@/components/shared/ReviewForm";
 import { Separator } from "@/components/ui/separator";
+import Loading from "../loading";
 
 export default function ReviewsPage() {
-  const { reviews } = useData();
+  const { reviews, isLoading } = useData();
 
   const sortedReviews = [...reviews].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 sm:py-12">

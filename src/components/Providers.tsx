@@ -7,36 +7,56 @@ import { MenuItem, Promotion, Review, ShopSettings } from '@/lib/types';
 import { initialMenuItems, initialPromotions, initialReviews, initialShopSettings } from '@/lib/database';
 
 // --- LOCAL STORAGE GENERIC HOOK ---
-function usePersistentState<T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
+function usePersistentState<T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>, boolean] {
+  const [isInitialized, setIsInitialized] = useState(false);
+
   const [state, setState] = useState<T>(() => {
+    // We can't use localStorage on the server, so we return initialValue
+    if (typeof window === 'undefined') {
+      return initialValue;
+    }
     try {
-      if (typeof window !== 'undefined') {
-        const item = window.localStorage.getItem(key);
-        return item ? JSON.parse(item) : initialValue;
-      }
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
     } catch (error) {
       console.error(`Error reading localStorage key “${key}”:`, error);
+      return initialValue;
     }
-    return initialValue;
   });
 
   useEffect(() => {
-    try {
-      if (typeof window !== 'undefined') {
-        window.localStorage.setItem(key, JSON.stringify(state));
+    // This effect runs on the client after hydration
+    if (typeof window !== 'undefined') {
+      try {
+        const item = window.localStorage.getItem(key);
+        if (item) {
+          setState(JSON.parse(item));
+        }
+      } catch (error) {
+         console.error(`Error reading localStorage key “${key}”:`, error);
+      } finally {
+        setIsInitialized(true);
       }
-    } catch (error) {
-      console.error(`Error setting localStorage key “${key}”:`, error);
     }
-  }, [key, state]);
+  }, [key]);
 
-  return [state, setState];
+  useEffect(() => {
+    if (isInitialized && typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(key, JSON.stringify(state));
+      } catch (error) {
+        console.error(`Error setting localStorage key “${key}”:`, error);
+      }
+    }
+  }, [key, state, isInitialized]);
+
+  return [state, setState, isInitialized];
 }
 
 
 // --- AUTH CONTEXT ---
 interface AuthContextType {
-  isAuthenticated: boolean;
+  isAuthenticated: boolean | undefined;
   login: (password: string) => boolean;
   logout: () => void;
 }
@@ -50,7 +70,7 @@ export const useAuth = () => {
 };
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>(undefined);
   const router = useRouter();
 
   useEffect(() => {
@@ -106,17 +126,12 @@ export const useData = () => {
 };
 
 const DataProvider = ({ children }: { children: ReactNode }) => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [menuItems, setMenuItems] = usePersistentState<MenuItem[]>('kopimi_menu', initialMenuItems);
-    const [promotions, setPromotions] = usePersistentState<Promotion[]>('kopimi_promos', initialPromotions);
-    const [reviews, setReviews] = usePersistentState<Review[]>('kopimi_reviews', initialReviews);
-    const [settings, setSettings] = usePersistentState<ShopSettings>('kopimi_settings', initialShopSettings);
+    const [menuItems, setMenuItems, menuInitialized] = usePersistentState<MenuItem[]>('kopimi_menu', initialMenuItems);
+    const [promotions, setPromotions, promosInitialized] = usePersistentState<Promotion[]>('kopimi_promos', initialPromotions);
+    const [reviews, setReviews, reviewsInitialized] = usePersistentState<Review[]>('kopimi_reviews', initialReviews);
+    const [settings, setSettings, settingsInitialized] = usePersistentState<ShopSettings>('kopimi_settings', initialShopSettings);
     
-    useEffect(() => {
-        // This effect ensures we don't have a flash of initial data if localStorage is populated.
-        // The usePersistentState hook handles the loading, this just manages the global loading state.
-        setIsLoading(false);
-    }, []);
+    const isLoading = !menuInitialized || !promosInitialized || !reviewsInitialized || !settingsInitialized;
 
   return (
     <DataContext.Provider value={{ menuItems, setMenuItems, promotions, setPromotions, reviews, setReviews, settings, setSettings, isLoading }}>

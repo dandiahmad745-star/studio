@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { registrationSchema } from '@/lib/validators';
@@ -49,8 +49,8 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="container mx-auto flex min-h-[80vh] items-center justify-center px-4 py-8 sm:py-12">
-      <Card className="w-full max-w-md">
+    <div className="flex min-h-screen items-center justify-center px-4">
+      <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
           <CardTitle className="font-headline text-3xl">Daftar Member</CardTitle>
           <CardDescription>Buat akun gratis untuk mulai mengumpulkan poin.</CardDescription>
@@ -93,7 +93,7 @@ export default function RegisterPage() {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <Input type="password" placeholder="Minimal 6 karakter" {...field} />
                     </FormControl>
                      <FormMessage />
                   </FormItem>
@@ -107,13 +107,12 @@ export default function RegisterPage() {
                   <FormItem>
                     <FormLabel>Konfirmasi Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <Input type="password" placeholder="Ulangi password" {...field} />
                     </FormControl>
                      <FormMessage />
                   </FormItem>
                 )}
               />
-
 
               <Button type="submit" className="w-full">Daftar Sekarang</Button>
             </form>

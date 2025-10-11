@@ -1,3 +1,12 @@
+
+export interface UserProfile {
+  id: string;
+  fullName: string;
+  email: string;
+  password?: string; // Only for simulation, not for production
+  points: number;
+}
+
 export interface MenuItem {
   id: string;
   name: string;

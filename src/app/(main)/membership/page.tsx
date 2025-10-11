@@ -1,10 +1,12 @@
 
 "use client";
 
+import { useAuth } from "@/components/Providers";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Gift, Zap } from "lucide-react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Check, Gift, UserCircle, Zap } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const loyaltyProgram = {
     name: "Kopi Kawan",
@@ -17,10 +19,40 @@ const loyaltyProgram = {
         "Akses ke promo khusus member",
     ],
     cta: "Gabung Sekarang, Gratis!",
-    href: "/membership/register"
+    href: "/register"
 };
 
 export default function MembershipPage() {
+    const { currentUser } = useAuth();
+    const router = useRouter();
+
+    if (currentUser) {
+        return (
+            <div className="bg-muted/30">
+                <div className="container mx-auto flex min-h-[80vh] items-center justify-center px-4 py-8 sm:py-12">
+                    <Card className="w-full max-w-md text-center">
+                        <CardHeader>
+                            <UserCircle className="mx-auto h-16 w-16 text-primary" />
+                            <CardTitle className="font-headline text-3xl">Anda Sudah Bergabung!</CardTitle>
+                            <CardDescription>
+                                Selamat datang kembali, {currentUser.fullName}. Lihat kemajuan poin Anda di halaman profil.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-sm text-muted-foreground">Total Poin Anda Saat Ini:</p>
+                            <p className="text-4xl font-bold text-primary">{currentUser.points.toLocaleString('id-ID')}</p>
+                        </CardContent>
+                        <CardFooter>
+                            <Button className="w-full" onClick={() => router.push('/profile')}>
+                                Lihat Profil Saya
+                            </Button>
+                        </CardFooter>
+                    </Card>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-muted/30">
             <div className="container mx-auto flex min-h-[80vh] items-center justify-center px-4 py-8 sm:py-12">

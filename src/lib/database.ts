@@ -102,13 +102,15 @@ export const initialBaristas: Barista[] = [
     {
       id: 'barista-1',
       name: 'Rian',
-      bio: 'Rian adalah kepala barista kami dengan pengalaman lebih dari 5 tahun. Spesialisasinya adalah latte art dan manual brew.',
+      bio: 'Rian adalah kepala barista kami dengan pengalaman lebih dari 5 tahun. Spesialisasinya adalah latte art dan manual brew. Dia percaya bahwa setiap cangkir kopi adalah sebuah cerita yang menunggu untuk dinikmati.',
       image: findImage('barista-1'),
+      instagram: 'rian.kopi',
     },
     {
       id: 'barista-2',
       name: 'Sari',
-      bio: 'Sari sangat bersemangat tentang kopi dan suka bereksperimen dengan resep-resep baru. Jangan ragu untuk bertanya rekomendasinya!',
+      bio: 'Sari sangat bersemangat tentang kopi dan suka bereksperimen dengan resep-resep baru. Jangan ragu untuk bertanya rekomendasinya! Dia selalu senang berbagi pengetahuannya tentang biji kopi dari seluruh dunia.',
       image: findImage('barista-2'),
+      instagram: 'sari.brews',
     },
 ];

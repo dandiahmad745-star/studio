@@ -4,6 +4,65 @@ import { useData } from '@/components/Providers';
 import Loading from '../loading';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Instagram } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Barista } from '@/lib/types';
+import Link from 'next/link';
+
+const BaristaCard = ({ barista }: { barista: Barista }) => {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Card className="group cursor-pointer overflow-hidden text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+          <CardHeader className="p-0">
+              <div className="relative mx-auto mt-6 h-40 w-40">
+                  <Image
+                      src={barista.image}
+                      alt={barista.name}
+                      fill
+                      sizes="160px"
+                      className="rounded-full object-cover border-4 border-background shadow-md transition-transform duration-300 group-hover:scale-105"
+                  />
+              </div>
+          </CardHeader>
+          <CardContent className="p-6">
+            <CardTitle className="font-headline text-2xl">{barista.name}</CardTitle>
+            <CardDescription className="mt-2 text-base text-muted-foreground truncate">{barista.bio}</CardDescription>
+          </CardContent>
+        </Card>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <div className="relative mx-auto -mt-16 mb-4 h-32 w-32">
+            <Image
+              src={barista.image}
+              alt={barista.name}
+              fill
+              sizes="128px"
+              className="rounded-full object-cover border-4 border-background shadow-lg"
+            />
+          </div>
+          <DialogTitle className="text-center font-headline text-3xl">{barista.name}</DialogTitle>
+          <DialogDescription className="text-center text-base py-4">
+            {barista.bio}
+          </DialogDescription>
+        </DialogHeader>
+        {barista.instagram && (
+          <div className="flex justify-center">
+            <Link href={`https://instagram.com/${barista.instagram}`} target="_blank" rel="noopener noreferrer">
+              <Button>
+                <Instagram className="mr-2" />
+                @{barista.instagram}
+              </Button>
+            </Link>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 
 export default function BaristasPage() {
   const { baristas, isLoading } = useData();
@@ -23,23 +82,7 @@ export default function BaristasPage() {
       
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {baristas.map((barista) => (
-          <Card key={barista.id} className="overflow-hidden text-center">
-            <CardHeader className="p-0">
-                <div className="relative mx-auto mt-6 h-40 w-40">
-                    <Image
-                        src={barista.image}
-                        alt={barista.name}
-                        fill
-                        sizes="160px"
-                        className="rounded-full object-cover border-4 border-background shadow-md"
-                    />
-                </div>
-            </CardHeader>
-            <CardContent className="p-6">
-              <CardTitle className="font-headline text-2xl">{barista.name}</CardTitle>
-              <CardDescription className="mt-4 text-base text-muted-foreground">{barista.bio}</CardDescription>
-            </CardContent>
-          </Card>
+          <BaristaCard key={barista.id} barista={barista} />
         ))}
       </div>
     </div>

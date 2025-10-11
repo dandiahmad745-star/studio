@@ -64,4 +64,5 @@ export const baristaSchema = z.object({
     name: z.string().min(1, { message: "Name is required" }),
     bio: z.string().min(1, { message: "Bio is required" }),
     image: z.string().min(1, { message: "Image is required" }),
+    instagram: z.string().optional(),
 });

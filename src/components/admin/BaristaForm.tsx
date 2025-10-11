@@ -34,6 +34,7 @@ export default function BaristaForm({ isOpen, setIsOpen, barista }: BaristaFormP
       name: '',
       bio: '',
       image: '',
+      instagram: '',
     },
   });
 
@@ -47,6 +48,7 @@ export default function BaristaForm({ isOpen, setIsOpen, barista }: BaristaFormP
           name: '',
           bio: '',
           image: '',
+          instagram: '',
         });
         setImagePreview(null);
       }
@@ -109,6 +111,19 @@ export default function BaristaForm({ isOpen, setIsOpen, barista }: BaristaFormP
                   <FormLabel>Bio</FormLabel>
                   <FormControl>
                     <Textarea {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="instagram"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Instagram Handle (without @)</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="rian.kopi" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -49,4 +49,5 @@ export interface Barista {
   name: string;
   bio: string;
   image: string;
+  instagram?: string;
 }

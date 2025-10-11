@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Coffee, Menu, Gift, MessageSquare, Clock, Users, ClipboardUser } from 'lucide-react';
+import { Coffee, Menu, Gift, MessageSquare, Clock, Users, Clipboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
@@ -22,7 +22,7 @@ const mainNavLinks = [
 
 const mobileNavLinks = [
     ...mainNavLinks,
-    { href: '/absen', label: 'Portal Barista', icon: ClipboardUser },
+    { href: '/absen', label: 'Portal Barista', icon: Clipboard },
 ]
 
 export default function Header() {

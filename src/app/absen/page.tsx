@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useData } from "@/components/Providers";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { addDays, format, startOfWeek } from 'date-fns';
@@ -62,8 +63,8 @@ export default function BaristaAbsenPage() {
                         ))}
                         {/* Data Rows */}
                         {baristas.map(barista => (
-                            <>
-                                <div key={barista.id} className="font-medium py-2">{barista.name}</div>
+                            <React.Fragment key={barista.id}>
+                                <div className="font-medium py-2">{barista.name}</div>
                                 {weekDates.map(date => {
                                     const shift = getShiftForBarista(barista.id, date);
                                     return (
@@ -72,7 +73,7 @@ export default function BaristaAbsenPage() {
                                         </div>
                                     )
                                 })}
-                            </>
+                            </React.Fragment>
                         ))}
                     </div>
                 </CardContent>

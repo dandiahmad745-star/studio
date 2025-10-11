@@ -58,19 +58,18 @@ export default function PromoForm({ isOpen, setIsOpen, promo }: PromoFormProps) 
   }, [promo, form, isOpen]);
 
   function onSubmit(data: PromoFormValues) {
-    const promotionData = {
-        ...data,
-        validFrom: data.validFrom.toISOString(),
-        validUntil: data.validUntil.toISOString(),
-    };
-
     if (promo) {
       // Edit
-      setPromotions((prev) => prev.map((p) => (p.id === promo.id ? { ...promotionData, id: p.id } : p)));
+      setPromotions((prev) => prev.map((p) => (p.id === promo.id ? { ...p, ...data, validFrom: data.validFrom.toISOString(), validUntil: data.validUntil.toISOString() } : p)));
       toast({ title: 'Success', description: 'Promotion updated.' });
     } else {
       // Add
-      const newPromo = { ...promotionData, id: `promo-${Date.now()}` };
+      const newPromo: Promotion = { 
+        ...data, 
+        id: `promo-${Date.now()}`,
+        validFrom: data.validFrom.toISOString(),
+        validUntil: data.validUntil.toISOString(),
+    };
       setPromotions((prev) => [newPromo, ...prev]);
       toast({ title: 'Success', description: 'New promotion added.' });
     }

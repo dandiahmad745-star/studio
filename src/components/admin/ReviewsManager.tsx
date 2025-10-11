@@ -15,7 +15,6 @@ import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
 import { Textarea } from '../ui/textarea';
 import ReviewCard from '../shared/ReviewCard';
-import { Star } from 'lucide-react';
 
 type ReplyFormValues = z.infer<typeof reviewReplySchema>;
 
@@ -111,7 +110,7 @@ export default function ReviewsManager() {
               }} 
             />
           )}
-          {index < reviews.length - 1 && <Separator className="mt-6" />}
+          {index < sortedReviews.length - 1 && <Separator className="mt-6" />}
         </div>
       ))}
     </div>

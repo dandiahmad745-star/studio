@@ -16,7 +16,8 @@ import { Coffee, Gift, LayoutDashboard, LogOut, MessageSquare, Settings } from '
 import Image from 'next/image';
 
 const adminNavLinks = [
-  { href: '/admin', label: 'Menu', icon: Coffee },
+  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/menu', label: 'Menu', icon: Coffee },
   { href: '/admin/promotions', label: 'Promotions', icon: Gift },
   { href: '/admin/reviews', label: 'Reviews', icon: MessageSquare },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
@@ -46,9 +47,7 @@ export default function AdminSidebar() {
             <SidebarMenuItem key={link.href}>
               <Link href={link.href} className="w-full">
                 <SidebarMenuButton
-                  isActive={
-                    pathname === link.href || (link.href === '/admin' && pathname.startsWith('/admin') && !adminNavLinks.some(l => l.href !== '/admin' && pathname.startsWith(l.href)))
-                  }
+                  isActive={pathname === link.href}
                   className="w-full justify-start"
                 >
                   <link.icon className="h-4 w-4" />

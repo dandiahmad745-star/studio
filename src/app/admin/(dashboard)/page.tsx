@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import PageHeader from '@/components/admin/PageHeader';
-import { Coffee, Gift, MessageSquare, Settings, ArrowRight, Users, CalendarClock, Send, Briefcase, QrCode, Mail } from 'lucide-react';
+import { Coffee, Gift, MessageSquare, Settings, ArrowRight, Users, CalendarClock, Send, Briefcase, QrCode } from 'lucide-react';
 import { useData } from '@/components/Providers';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -25,12 +25,6 @@ const dashboardItems = [
     title: 'Reviews',
     description: 'View and reply to customer feedback.',
     icon: MessageSquare,
-  },
-  {
-    href: '/admin/messages',
-    title: 'Customer Messages',
-    description: 'Read messages sent by customers.',
-    icon: Mail,
   },
   {
     href: '/admin/baristas',
@@ -77,8 +71,8 @@ export default function AdminDashboardPage() {
         return (
             <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
                 <PageHeader title="Admin Dashboard" description="Welcome to your shop management center." />
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                    {[...Array(10)].map((_, i) => (
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {[...Array(9)].map((_, i) => (
                         <Card key={i}>
                             <CardHeader>
                                 <Skeleton className="h-6 w-3/4" />
@@ -97,7 +91,7 @@ export default function AdminDashboardPage() {
   return (
     <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
       <PageHeader title="Admin Dashboard" description="Welcome to your shop management center." />
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {dashboardItems.map((item) => (
           <Link href={item.href} key={item.href}>
             <Card className="group h-full transition-all hover:border-primary hover:shadow-md">

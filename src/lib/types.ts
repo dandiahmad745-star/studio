@@ -80,13 +80,3 @@ export interface JobVacancy {
     postedDate: string; // ISO date string
     isActive: boolean;
 }
-
-export interface CustomerMessage {
-    id: string;
-    customerName: string;
-    baristaId: string;
-    baristaName: string;
-    message: string;
-    date: string; // ISO date string
-    status: 'unread' | 'read';
-}

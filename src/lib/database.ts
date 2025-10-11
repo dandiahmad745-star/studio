@@ -1,4 +1,4 @@
-import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage } from '@/lib/types';
+import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const findImage = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
@@ -167,5 +167,3 @@ export const medicalLeaveReasons = [
     'Efek Samping Vaksin',
     'Donor Darah',
 ];
-
-export const initialCustomerMessages: CustomerMessage[] = [];

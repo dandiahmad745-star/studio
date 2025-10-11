@@ -97,8 +97,8 @@ export default function ScheduleManagementPage() {
 
                     {/* Data Rows */}
                     {baristas.map(barista => (
-                        <>
-                            <div key={barista.id} className="font-medium py-2 sticky left-0 bg-card flex items-center">{barista.name}</div>
+                        <React.Fragment key={barista.id}>
+                            <div className="font-medium py-2 sticky left-0 bg-card flex items-center">{barista.name}</div>
                             {weekDates.map(date => {
                                 const currentShift = getShiftForBarista(barista.id, date);
                                 return (
@@ -119,7 +119,7 @@ export default function ScheduleManagementPage() {
                                     </div>
                                 )
                             })}
-                        </>
+                        </React.Fragment>
                     ))}
                 </div>
             )}

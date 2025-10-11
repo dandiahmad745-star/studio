@@ -1,10 +1,9 @@
-// This is a new file
 "use client";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
 import { Check } from "lucide-react";
+import Link from "next/link";
 
 const membershipTiers = [
     {
@@ -18,6 +17,7 @@ const membershipTiers = [
         ],
         cta: "Daftar Sekarang",
         isPopular: false,
+        href: "/membership/register"
     },
     {
         name: "Kopi Sahabat",
@@ -32,6 +32,7 @@ const membershipTiers = [
         ],
         cta: "Pilih Sahabat",
         isPopular: true,
+        href: "/membership/register"
     },
     {
         name: "Kopi Keluarga",
@@ -46,19 +47,11 @@ const membershipTiers = [
         ],
         cta: "Pilih Keluarga",
         isPopular: false,
+        href: "/membership/register"
     },
 ];
 
 export default function MembershipPage() {
-    const { toast } = useToast();
-
-    const handleJoinClick = () => {
-        toast({
-            title: "Segera Hadir!",
-            description: "Fitur pendaftaran membership akan segera tersedia. Nantikan ya!",
-        });
-    };
-
     return (
         <div className="container mx-auto px-4 py-8 sm:py-12">
             <div className="text-center mb-12">
@@ -91,14 +84,15 @@ export default function MembershipPage() {
                                         <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-1" />
                                         <span className="text-muted-foreground">{feature}</span>
                                     </li>
-
                                 ))}
                             </ul>
                         </CardContent>
                         <CardFooter>
-                            <Button onClick={handleJoinClick} className="w-full" variant={tier.isPopular ? 'default' : 'outline'}>
-                                {tier.cta}
-                            </Button>
+                            <Link href={tier.href} className="w-full">
+                                <Button className="w-full" variant={tier.isPopular ? 'default' : 'outline'}>
+                                    {tier.cta}
+                                </Button>
+                            </Link>
                         </CardFooter>
                     </Card>
                 ))}

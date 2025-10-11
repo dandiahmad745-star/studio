@@ -104,3 +104,9 @@ export const customerMessageSchema = z.object({
     customerName: z.string().min(1, { message: "Your name is required." }),
     message: z.string().min(1, { message: "Please select a message." }),
 });
+
+export const membershipRegistrationSchema = z.object({
+    fullName: z.string().min(3, { message: "Nama lengkap diperlukan." }),
+    email: z.string().email({ message: "Alamat email tidak valid." }),
+    birthDate: z.date({ required_error: "Tanggal lahir diperlukan." }),
+});

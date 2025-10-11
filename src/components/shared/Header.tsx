@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Coffee, Menu, Gift, MessageSquare, Clock, Users } from 'lucide-react';
+import { Coffee, Menu, Gift, MessageSquare, Clock, Users, ClipboardUser } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
@@ -13,12 +13,17 @@ import { useEffect, useState } from 'react';
 import { getShopStatus } from '@/lib/shop-status';
 import { Badge } from '../ui/badge';
 
-const navLinks = [
+const mainNavLinks = [
   { href: '/', label: 'Menu', icon: Coffee },
   { href: '/promotions', label: 'Promotions', icon: Gift },
   { href: '/reviews', label: 'Reviews', icon: MessageSquare },
   { href: '/baristas', label: 'Our Baristas', icon: Users },
 ];
+
+const mobileNavLinks = [
+    ...mainNavLinks,
+    { href: '/absen', label: 'Portal Barista', icon: ClipboardUser },
+]
 
 export default function Header() {
   const pathname = usePathname();
@@ -38,8 +43,8 @@ export default function Header() {
   }, [isLoading, settings.operatingHours]);
 
 
-  const renderNavLinks = (isMobile = false) =>
-    navLinks.map((link) => (
+  const renderNavLinks = (links: typeof mainNavLinks, isMobile = false) =>
+    links.map((link) => (
       <Link
         key={link.href}
         href={link.href}
@@ -97,7 +102,7 @@ export default function Header() {
 
         <div className="flex flex-1 items-center justify-end gap-2">
             <nav className="hidden items-center gap-2 md:flex">
-                {renderNavLinks()}
+                {renderNavLinks(mainNavLinks)}
             </nav>
             <div className="md:hidden">
                 <Sheet>
@@ -122,7 +127,7 @@ export default function Header() {
                             </span>
                         </Link>
                     <nav className="flex flex-col gap-4">
-                        {renderNavLinks(true)}
+                        {renderNavLinks(mobileNavLinks, true)}
                     </nav>
                     </div>
                 </SheetContent>

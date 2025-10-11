@@ -63,7 +63,7 @@ export default function MenuForm({ isOpen, setIsOpen, item }: MenuFormProps) {
       const reader = new FileReader();
       reader.onloadend = () => {
         const result = reader.result as string;
-        form.setValue('image', result);
+        form.setValue('image', result, { shouldValidate: true });
         setImagePreview(result);
       };
       reader.readAsDataURL(file);
@@ -73,7 +73,7 @@ export default function MenuForm({ isOpen, setIsOpen, item }: MenuFormProps) {
   function onSubmit(data: MenuFormValues) {
     if (item) {
       // Edit
-      setMenuItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, ...data } : i)));
+      setMenuItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, ...data, id: i.id } : i)));
       toast({ title: 'Success', description: 'Menu item updated.' });
     } else {
       // Add
@@ -126,7 +126,7 @@ export default function MenuForm({ isOpen, setIsOpen, item }: MenuFormProps) {
                   <FormItem>
                     <FormLabel>Price</FormLabel>
                     <FormControl>
-                      <Input type="number" step="1" {...field} />
+                      <Input type="number" step="1" {...field} onChange={e => field.onChange(e.target.valueAsNumber)} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -156,7 +156,15 @@ export default function MenuForm({ isOpen, setIsOpen, item }: MenuFormProps) {
                     <Image src={imagePreview} alt="Preview" fill className="rounded-md object-cover" />
                     </div>
                 )}
-                <FormMessage />
+                <FormField
+                  control={form.control}
+                  name="image"
+                  render={() => (
+                    <FormItem>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
             </FormItem>
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>

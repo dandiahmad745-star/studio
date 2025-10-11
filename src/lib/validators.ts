@@ -4,9 +4,9 @@ export const menuItemSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1, { message: 'Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }),
-  price: z.coerce.number().int().positive({ message: 'Price must be a positive number' }),
+  price: z.coerce.number().positive({ message: 'Price must be a positive number' }),
   category: z.string().min(1, { message: 'Category is required' }),
-  image: z.string().optional(),
+  image: z.string().min(1, { message: 'Image is required' }),
 });
 
 export const promotionSchema = z.object({
@@ -23,7 +23,7 @@ export const promotionSchema = z.object({
 export const reviewSchema = z.object({
   id: z.string().optional(),
   customerName: z.string().min(1, { message: 'Your name is required' }),
-  rating: z.coerce.number().min(1).max(5, { message: 'Rating must be between 1 and 5' }),
+  rating: z.coerce.number().min(1, { message: 'Rating is required' }).max(5, { message: 'Rating must be between 1 and 5' }),
   comment: z.string().min(1, { message: 'A comment is required' }),
   date: z.string().optional(),
   reply: z.string().optional(),
@@ -38,5 +38,5 @@ export const settingsSchema = z.object({
   address: z.string().min(1, { message: 'Address is required' }),
   phone: z.string().min(1, { message: 'Phone number is required' }),
   email: z.string().email({ message: 'Invalid email address' }),
-  logo: z.string().optional(),
+  logo: z.string().min(1, { message: 'Logo is required' }),
 });

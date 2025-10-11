@@ -35,7 +35,7 @@ export default function SettingsForm() {
       const reader = new FileReader();
       reader.onloadend = () => {
         const result = reader.result as string;
-        form.setValue('logo', result);
+        form.setValue('logo', result, { shouldValidate: true });
         setLogoPreview(result);
       };
       reader.readAsDataURL(file);
@@ -117,7 +117,15 @@ export default function SettingsForm() {
                     <Input type="file" accept="image/*" className="max-w-xs" onChange={handleFileChange} />
                 </FormControl>
             </div>
-            <FormMessage />
+            <FormField
+                control={form.control}
+                name="logo"
+                render={() => (
+                    <FormItem>
+                    <FormMessage />
+                    </FormItem>
+                )}
+            />
         </FormItem>
 
         <div className="flex justify-end">

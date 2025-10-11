@@ -3,8 +3,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { Toaster } from "@/components/ui/toaster";
-import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy } from '@/lib/types';
-import { initialMenuItems, initialPromotions, initialReviews, initialShopSettings, initialBaristas, initialCategories, initialSchedules, initialLeaveRequests, initialJobVacancies } from '@/lib/database';
+import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage } from '@/lib/types';
+import { initialMenuItems, initialPromotions, initialReviews, initialShopSettings, initialBaristas, initialCategories, initialSchedules, initialLeaveRequests, initialJobVacancies, initialCustomerMessages } from '@/lib/database';
 
 // --- LOCAL STORAGE GENERIC HOOK ---
 function usePersistentState<T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>, boolean] {
@@ -110,6 +110,7 @@ interface DataContextType {
   schedules: Schedule[];
   leaveRequests: LeaveRequest[];
   jobVacancies: JobVacancy[];
+  customerMessages: CustomerMessage[];
   setMenuItems: React.Dispatch<React.SetStateAction<MenuItem[]>>;
   setPromotions: React.Dispatch<React.SetStateAction<Promotion[]>>;
   setReviews: React.Dispatch<React.SetStateAction<Review[]>>;
@@ -119,6 +120,7 @@ interface DataContextType {
   setSchedules: React.Dispatch<React.SetStateAction<Schedule[]>>;
   setLeaveRequests: React.Dispatch<React.SetStateAction<LeaveRequest[]>>;
   setJobVacancies: React.Dispatch<React.SetStateAction<JobVacancy[]>>;
+  setCustomerMessages: React.Dispatch<React.SetStateAction<CustomerMessage[]>>;
   isLoading: boolean;
 }
 
@@ -140,8 +142,9 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
     const [schedules, setSchedules, schedulesInitialized] = usePersistentState<Schedule[]>('kopimi_schedules', initialSchedules);
     const [leaveRequests, setLeaveRequests, leaveRequestsInitialized] = usePersistentState<LeaveRequest[]>('kopimi_leave_requests', initialLeaveRequests);
     const [jobVacancies, setJobVacancies, jobsInitialized] = usePersistentState<JobVacancy[]>('kopimi_jobs', initialJobVacancies);
+    const [customerMessages, setCustomerMessages, messagesInitialized] = usePersistentState<CustomerMessage[]>('kopimi_messages', initialCustomerMessages);
     
-    const isLoading = !menuInitialized || !promosInitialized || !reviewsInitialized || !settingsInitialized || !baristasInitialized || !categoriesInitialized || !schedulesInitialized || !leaveRequestsInitialized || !jobsInitialized;
+    const isLoading = !menuInitialized || !promosInitialized || !reviewsInitialized || !settingsInitialized || !baristasInitialized || !categoriesInitialized || !schedulesInitialized || !leaveRequestsInitialized || !jobsInitialized || !messagesInitialized;
 
   return (
     <DataContext.Provider value={{ 
@@ -154,6 +157,7 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
         schedules, setSchedules,
         leaveRequests, setLeaveRequests,
         jobVacancies, setJobVacancies,
+        customerMessages, setCustomerMessages,
         isLoading 
     }}>
       {children}

@@ -5,13 +5,11 @@ import { useData } from '@/components/Providers';
 import PageHeader from '@/components/admin/PageHeader';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
-import { CustomerMessage } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 export default function MessagesPage() {
@@ -35,15 +33,17 @@ export default function MessagesPage() {
       description: "The customer message has been permanently deleted.",
     });
   };
+  
+  const unreadCount = useMemo(() => customerMessages.filter(m => m.status === 'unread').length, [customerMessages]);
 
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <PageHeader title="Customer Messages" description="Read and manage messages sent from customers to your baristas." />
+      <PageHeader title="Pesan Customer" description="Lihat dan kelola pesan yang dikirim dari pelanggan." />
       <Card>
         <CardHeader>
-          <CardTitle>Inbox</CardTitle>
+          <CardTitle>Kotak Masuk</CardTitle>
           <CardDescription>
-            {customerMessages.length} total messages. Unread messages are highlighted.
+            Total {customerMessages.length} pesan. {unreadCount > 0 ? `${unreadCount} pesan belum dibaca.` : ''}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -62,7 +62,7 @@ export default function MessagesPage() {
                             <div className="flex items-center gap-2">
                                 {message.status === 'unread' && <span className="h-2 w-2 rounded-full bg-primary" />}
                                 <span className="font-medium">{message.customerName}</span>
-                                <span className="text-muted-foreground text-sm font-normal">to {message.baristaName}</span>
+                                <span className="text-muted-foreground text-sm font-normal">ke {message.baristaName}</span>
                             </div>
                             <p className="text-sm text-muted-foreground font-normal truncate">
                                 {message.message}
@@ -80,19 +80,19 @@ export default function MessagesPage() {
                           <AlertDialogTrigger asChild>
                             <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
                                 <Trash2 className="mr-2 h-4 w-4" />
-                                Delete
+                                Hapus
                             </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                              <AlertDialogTitle>Anda yakin?</AlertDialogTitle>
                               <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete this message.
+                                Aksi ini tidak dapat dibatalkan. Ini akan menghapus pesan secara permanen.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => handleDelete(message.id)} className="bg-destructive hover:bg-destructive/90">Delete</AlertDialogAction>
+                              <AlertDialogCancel>Batal</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => handleDelete(message.id)} className="bg-destructive hover:bg-destructive/90">Hapus</AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
                         </AlertDialog>
@@ -103,8 +103,8 @@ export default function MessagesPage() {
             </Accordion>
           ) : (
             <div className="text-center text-muted-foreground border-dashed border-2 rounded-lg p-12">
-              <p className="text-lg font-medium">No messages yet.</p>
-              <p>Messages from customers will appear here.</p>
+              <p className="text-lg font-medium">Belum ada pesan.</p>
+              <p>Pesan dari pelanggan akan muncul di sini.</p>
             </div>
           )}
         </CardContent>

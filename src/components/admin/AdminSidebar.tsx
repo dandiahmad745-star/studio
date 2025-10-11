@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarFooter
 } from '../ui/sidebar';
-import { Coffee, Gift, LayoutDashboard, LogOut, MessageSquare, Settings, Users, FolderKanban, CalendarClock, Send, Briefcase, QrCode } from 'lucide-react';
+import { Coffee, Gift, LayoutDashboard, LogOut, MessageSquare, Settings, Users, FolderKanban, CalendarClock, Send, Briefcase, QrCode, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 
 const adminNavLinks = [
@@ -21,6 +21,7 @@ const adminNavLinks = [
   { href: '/admin/categories', label: 'Categories', icon: FolderKanban },
   { href: '/admin/promotions', label: 'Promotions', icon: Gift },
   { href: '/admin/reviews', label: 'Reviews', icon: MessageSquare },
+  { href: '/admin/messages', label: 'Pesan', icon: MessageCircle, notificationKey: 'messages' },
   { href: '/admin/baristas', label: 'Baristas', icon: Users },
   { href: '/admin/schedule', label: 'Schedule', icon: CalendarClock },
   { href: '/admin/leave-requests', label: 'Leave Requests', icon: Send, notificationKey: 'leave' },
@@ -32,13 +33,17 @@ const adminNavLinks = [
 export default function AdminSidebar() {
   const pathname = usePathname();
   const { logout } = useAuth();
-  const { settings, leaveRequests } = useData();
+  const { settings, leaveRequests, customerMessages } = useData();
   
   const pendingLeaveRequests = leaveRequests.filter(req => req.status === 'Pending').length;
+  const unreadMessages = customerMessages.filter(msg => msg.status === 'unread').length;
 
   const hasNotification = (key?: string) => {
     if (key === 'leave' && pendingLeaveRequests > 0) {
       return true;
+    }
+    if (key === 'messages' && unreadMessages > 0) {
+        return true;
     }
     return false;
   };

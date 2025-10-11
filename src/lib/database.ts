@@ -1,4 +1,4 @@
-import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy } from '@/lib/types';
+import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const findImage = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
@@ -125,6 +125,7 @@ export const initialCategories: string[] = ["Makanan", "Minuman", "Snack"];
 
 export const initialSchedules: Schedule[] = [];
 export const initialLeaveRequests: LeaveRequest[] = [];
+export const initialCustomerMessages: CustomerMessage[] = [];
 
 export const initialJobVacancies: JobVacancy[] = [
     {
@@ -167,3 +168,16 @@ export const medicalLeaveReasons = [
     'Efek Samping Vaksin',
     'Donor Darah',
 ];
+
+export const getMessageTemplates = (baristaName: string): string[] => {
+    return [
+        `Hai ${baristaName}, kopinya enak banget!`,
+        `Tolong sampaikan ke ${baristaName}, latte art-nya keren!`,
+        `Aku suka banget sama rekomendasi kopi dari ${baristaName}.`,
+        `Kapan ${baristaName} ada jadwal lagi?`,
+        `Mau tanya dong, ${baristaName} pakai biji kopi apa ya kemarin?`,
+        `Nitip salam buat ${baristaName} ya, pelayanannya ramah banget.`,
+        `Buatin kopi seenak buatan ${baristaName} lagi ya!`,
+        `${baristaName} hebat! Bikin hariku jadi lebih semangat.`,
+    ];
+};

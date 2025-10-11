@@ -1,4 +1,3 @@
-// This is a new file
 "use client";
 
 import { useData } from "@/components/Providers";
@@ -9,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LeaveRequestForm from "@/components/barista/LeaveRequestForm";
 import { Schedule } from "@/lib/types";
 
-export default function BaristaSchedulePage() {
+export default function BaristaAbsenPage() {
   const { baristas, schedules, isLoading } = useData();
 
   if (isLoading) {

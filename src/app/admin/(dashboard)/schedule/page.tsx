@@ -7,10 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { addDays, format, startOfWeek, subDays } from 'date-fns';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, PlusCircle } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
 import { Barista, Schedule } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
+import Link from 'next/link';
 
 const shifts: Schedule['shift'][] = ['Morning', 'Afternoon', 'Night', 'Off'];
 
@@ -55,7 +56,13 @@ export default function ScheduleManagementPage() {
 
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <PageHeader title="Schedule Management" description="Set and manage weekly barista schedules." />
+      <PageHeader title="Schedule Management" description="Set and manage weekly barista schedules.">
+        <Link href="/admin/baristas">
+          <Button>
+            <PlusCircle className="mr-2 h-4 w-4" /> Tambah Karyawan
+          </Button>
+        </Link>
+      </PageHeader>
       
       <Card>
         <CardHeader>

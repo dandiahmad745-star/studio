@@ -1,101 +1,71 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Check, Gift, Zap } from "lucide-react";
 import Link from "next/link";
 
-const membershipTiers = [
-    {
-        name: "Kopi Kawan",
-        price: "Gratis",
-        description: "Untuk penikmat kopi kasual.",
-        features: [
-            "Newsletter mingguan dengan info kopi terbaru",
-            "Akses ke acara komunitas",
-            "Notifikasi promo lebih awal",
-        ],
-        cta: "Daftar Sekarang",
-        isPopular: false,
-        href: "/membership/register"
-    },
-    {
-        name: "Kopi Sahabat",
-        price: "Rp 50.000",
-        priceSuffix: "/bulan",
-        description: "Untuk penggemar kopi sejati.",
-        features: [
-            "Semua keuntungan Kopi Kawan",
-            "Diskon 10% untuk semua minuman",
-            "Satu minuman gratis di bulan ulang tahunmu",
-            "Akses ke workshop dasar",
-        ],
-        cta: "Pilih Sahabat",
-        isPopular: true,
-        href: "/membership/register"
-    },
-    {
-        name: "Kopi Keluarga",
-        price: "Rp 150.000",
-        priceSuffix: "/bulan",
-        description: "Pengalaman kopi paling premium.",
-        features: [
-            "Semua keuntungan Kopi Sahabat",
-            "Diskon 15% untuk semua item",
-            "Akses ke semua workshop",
-            "Merchandise eksklusif setiap 3 bulan",
-        ],
-        cta: "Pilih Keluarga",
-        isPopular: false,
-        href: "/membership/register"
-    },
-];
+const loyaltyProgram = {
+    name: "Kopi Kawan",
+    description: "Program loyalitas gratis untuk pelanggan setia Kopimi Kafe. Kumpulkan poin dan tukarkan dengan hadiah menarik!",
+    features: [
+        "Keanggotaan gratis seumur hidup",
+        "Dapatkan 100 poin untuk setiap pembelian kelipatan Rp 10.000",
+        "Tukarkan poin dengan produk gratis atau diskon",
+        "Kejutan spesial di hari ulang tahunmu",
+        "Akses ke promo khusus member",
+    ],
+    cta: "Gabung Sekarang, Gratis!",
+    href: "/membership/register"
+};
 
 export default function MembershipPage() {
     return (
-        <div className="container mx-auto px-4 py-8 sm:py-12">
-            <div className="text-center mb-12">
-                <h1 className="mb-4 font-headline text-4xl font-bold tracking-tight text-primary sm:text-5xl">
-                    Jadi Bagian dari Keluarga Kami
-                </h1>
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    Pilih tingkatan membership yang paling cocok untukmu dan nikmati berbagai keuntungan eksklusif.
-                </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                {membershipTiers.map((tier) => (
-                    <Card key={tier.name} className={`flex flex-col ${tier.isPopular ? 'border-primary border-2 shadow-lg' : ''}`}>
-                        {tier.isPopular && (
-                            <div className="text-center py-1 bg-primary text-primary-foreground font-semibold text-sm rounded-t-lg">Paling Populer</div>
-                        )}
-                        <CardHeader>
-                            <CardTitle className="font-headline text-2xl">{tier.name}</CardTitle>
-                            <CardDescription>{tier.description}</CardDescription>
-                        </CardHeader>
-                        <CardContent className="flex-grow">
-                            <div className="mb-6">
-                                <span className="text-4xl font-bold">{tier.price}</span>
-                                {tier.priceSuffix && <span className="text-muted-foreground">{tier.priceSuffix}</span>}
+        <div className="bg-muted/30">
+            <div className="container mx-auto flex min-h-[80vh] items-center justify-center px-4 py-8 sm:py-12">
+                <Card className="w-full max-w-2xl overflow-hidden shadow-lg">
+                    <div className="grid md:grid-cols-2">
+                        <div className="p-8">
+                            <CardHeader className="p-0">
+                                <div className="mb-4 flex items-center gap-3">
+                                    <Gift className="h-8 w-8 text-primary" />
+                                    <CardTitle className="font-headline text-3xl">{loyaltyProgram.name}</CardTitle>
+                                </div>
+                                <CardDescription className="text-base">{loyaltyProgram.description}</CardDescription>
+                            </CardHeader>
+                            <CardContent className="mt-6 p-0">
+                                <ul className="space-y-4">
+                                    {loyaltyProgram.features.map((feature, index) => (
+                                        <li key={index} className="flex items-start">
+                                            <Check className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-1" />
+                                            <span className="text-muted-foreground">{feature}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </CardContent>
+                        </div>
+                        <div className="flex flex-col justify-between bg-muted/50 p-8">
+                            <div className="space-y-4 text-center">
+                                <Zap className="mx-auto h-12 w-12 text-accent" />
+                                <h3 className="font-headline text-2xl">Cara Kerja Poin</h3>
+                                <p className="text-muted-foreground">
+                                    Poin akan diinput oleh kasir kami setiap kali Anda melakukan transaksi. Cukup sebutkan nomor telepon atau email terdaftar Anda.
+                                </p>
+                                <div className="rounded-lg border bg-background p-4">
+                                    <p className="font-bold text-primary">100 Poin</p>
+                                    <p className="text-sm">untuk setiap</p>
+                                    <p className="font-semibold">Rp 10.000 Pembelian</p>
+                                </div>
                             </div>
-                            <ul className="space-y-3">
-                                {tier.features.map((feature, index) => (
-                                    <li key={index} className="flex items-start">
-                                        <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-1" />
-                                        <span className="text-muted-foreground">{feature}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </CardContent>
-                        <CardFooter>
-                            <Link href={tier.href} className="w-full">
-                                <Button className="w-full" variant={tier.isPopular ? 'default' : 'outline'}>
-                                    {tier.cta}
+                            <Link href={loyaltyProgram.href} className="w-full mt-6">
+                                <Button className="w-full" size="lg">
+                                    {loyaltyProgram.cta}
                                 </Button>
                             </Link>
-                        </CardFooter>
-                    </Card>
-                ))}
+                        </div>
+                    </div>
+                </Card>
             </div>
         </div>
     );

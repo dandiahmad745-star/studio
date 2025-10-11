@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
@@ -163,7 +164,7 @@ const ClockInTab = ({ baristas, schedules }: { baristas: Barista[], schedules: S
                                 Apakah Anda yakin ingin mengirim foto ini sebagai bukti absen masuk?
                             </AlertDialogDescription>
                         </AlertDialogHeader>
-                        <img src={capturedImage || ''} alt="Captured" className="rounded-md aspect-video object-cover" />
+                        {capturedImage && <img src={capturedImage} alt="Captured" className="rounded-md aspect-video object-cover" />}
                         <AlertDialogFooter>
                             <AlertDialogCancel onClick={resetCapture}>Ambil Ulang</AlertDialogCancel>
                             <AlertDialogAction onClick={sendWhatsAppMessage}>
@@ -347,5 +348,7 @@ export default function BaristaAbsenPage() {
     </div>
   );
 }
+
+    
 
     

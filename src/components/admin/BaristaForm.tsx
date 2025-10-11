@@ -30,7 +30,7 @@ export default function BaristaForm({ isOpen, setIsOpen, barista }: BaristaFormP
 
   const form = useForm<BaristaFormValues>({
     resolver: zodResolver(baristaSchema),
-    defaultValues: barista || {
+    defaultValues: {
       name: '',
       bio: '',
       image: '',
@@ -41,7 +41,10 @@ export default function BaristaForm({ isOpen, setIsOpen, barista }: BaristaFormP
   useEffect(() => {
     if (isOpen) {
       if (barista) {
-        form.reset(barista);
+        form.reset({
+            ...barista,
+            instagram: barista.instagram || '', // Ensure instagram is always a string
+        });
         setImagePreview(barista.image);
       } else {
         form.reset({

@@ -65,15 +65,15 @@ export default function Header() {
             ) : settings.logo && (
                 <Image src={settings.logo} alt="logo" width={40} height={40} className="rounded-full" />
             )}
-          <div className='flex flex-col gap-0.5'>
-            <span className="font-headline text-xl font-bold leading-none sm:inline-block">
+          <div className='flex flex-col'>
+            <span className="font-headline text-xl font-bold leading-none">
                 {isLoading ? <Skeleton className="h-6 w-32" /> : settings.name}
             </span>
             {shopStatus && (
                  <Badge 
                     variant={shopStatus.isOpen ? 'default' : 'destructive'} 
                     className={cn(
-                        "w-fit gap-1.5 px-2 py-0.5 text-xs font-medium leading-none",
+                        "mt-1 w-fit gap-1.5 px-2 py-0.5 text-xs font-medium leading-none",
                         shopStatus.isOpen ? "bg-green-600/10 text-green-700 border-green-600/20" : "bg-red-600/10 text-red-700 border-red-600/20"
                     )}
                 >

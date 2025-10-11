@@ -95,8 +95,8 @@ const ClockInTab = ({ baristas, schedules }: { baristas: Barista[], schedules: S
 
         const message = `*ABSENSI MASUK*%0A%0A*Nama:* ${barista.name}%0A*Tanggal:* ${format(new Date(), 'd MMMM yyyy')}%0A*Jam Masuk:* ${time}%0A*Shift:* ${shift}%0A%0ATerima kasih.`;
         
-        // Use the specified phone number
-        const phoneNumber = '6285848651208';
+        // Use the specified phone number from settings
+        const phoneNumber = settings.whatsappNumberForAbsence || '6285848651208';
         
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
         window.open(whatsappUrl, '_blank');
@@ -348,8 +348,3 @@ export default function BaristaAbsenPage() {
     </div>
   );
 }
-
-    
-
-    
-

@@ -42,6 +42,7 @@ export interface ShopSettings {
   email:string;
   logo: string; // Base64 data URL or placeholder URL
   operatingHours: OperatingHours;
+  whatsappNumberForAbsence?: string;
 }
 
 export interface Barista {

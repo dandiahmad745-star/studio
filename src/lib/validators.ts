@@ -58,6 +58,7 @@ export const settingsSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
   logo: z.string().min(1, { message: 'Logo is required' }),
   operatingHours: operatingHoursSchema.optional(),
+  whatsappNumberForAbsence: z.string().optional(),
 });
 
 export const baristaSchema = z.object({

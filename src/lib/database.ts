@@ -95,7 +95,8 @@ export const initialShopSettings: ShopSettings = {
     friday: { isOpen: true, open: '08:00', close: '22:00' },
     saturday: { isOpen: true, open: '09:00', close: '23:00' },
     sunday: { isOpen: false, open: '09:00', close: '23:00' },
-  }
+  },
+  whatsappNumberForAbsence: '6285848651208',
 };
 
 export const initialBaristas: Barista[] = [

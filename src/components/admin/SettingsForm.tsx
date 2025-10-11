@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { settingsSchema } from '@/lib/validators';
 import { useData } from '../Providers';
@@ -43,7 +43,6 @@ export default function SettingsForm() {
   };
 
   function onSubmit(data: SettingsFormValues) {
-    // Only update the general fields, not operating hours
     setSettings(prev => ({
         ...prev,
         name: data.name,
@@ -51,6 +50,7 @@ export default function SettingsForm() {
         phone: data.phone,
         email: data.email,
         logo: data.logo,
+        whatsappNumberForAbsence: data.whatsappNumberForAbsence,
     }));
     toast({
       title: 'Settings Saved',
@@ -115,6 +115,22 @@ export default function SettingsForm() {
             )}
             />
         </div>
+         <FormField
+            control={form.control}
+            name="whatsappNumberForAbsence"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>Nomor WhatsApp untuk Absen</FormLabel>
+                <FormControl>
+                    <Input {...field} placeholder="e.g., 6281234567890" />
+                </FormControl>
+                 <FormDescription>
+                    Nomor tujuan untuk mengirim pesan absensi. Awali dengan kode negara (misal: 62).
+                </FormDescription>
+                <FormMessage />
+                </FormItem>
+            )}
+        />
         <FormItem>
             <FormLabel>Logo</FormLabel>
             <div className="flex items-center gap-4">

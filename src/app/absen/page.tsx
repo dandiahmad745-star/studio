@@ -16,6 +16,7 @@ import { Camera, Send, AlertTriangle } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { cn } from "@/lib/utils";
 
 
 const ClockInTab = ({ baristas, schedules }: { baristas: Barista[], schedules: Schedule[] }) => {
@@ -346,3 +347,5 @@ export default function BaristaAbsenPage() {
     </div>
   );
 }
+
+    

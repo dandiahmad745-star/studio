@@ -3,11 +3,10 @@
 import { useData } from "@/components/Providers";
 import ReviewCard from "@/components/shared/ReviewCard";
 import ReviewForm from "@/components/shared/ReviewForm";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 
 export default function ReviewsPage() {
-  const { reviews, isLoading } = useData();
+  const { reviews } = useData();
 
   const sortedReviews = [...reviews].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
@@ -24,12 +23,7 @@ export default function ReviewsPage() {
         <div className="lg:col-span-2">
            <h2 className="mb-4 font-headline text-2xl font-semibold">Recent Reviews</h2>
            <div className="space-y-6">
-            {isLoading ? (
-                <>
-                    <Skeleton className="h-40 w-full rounded-lg" />
-                    <Skeleton className="h-40 w-full rounded-lg" />
-                </>
-            ) : sortedReviews.length > 0 ? (
+            {sortedReviews.length > 0 ? (
                 sortedReviews.map((review, index) => (
                 <div key={review.id}>
                     <ReviewCard review={review} />

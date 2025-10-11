@@ -2,11 +2,10 @@
 
 import { useData } from "@/components/Providers";
 import PromoCard from "@/components/shared/PromoCard";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useMemo } from "react";
 
 export default function PromotionsPage() {
-  const { promotions, isLoading } = useData();
+  const { promotions } = useData();
 
   const activePromotions = useMemo(() => {
     const now = new Date();
@@ -23,11 +22,7 @@ export default function PromotionsPage() {
         Special Offers
       </h1>
 
-      {isLoading ? (
-         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {[...Array(2)].map((_, i) => <Skeleton key={i} className="h-60 w-full rounded-lg" />)}
-        </div>
-      ) : activePromotions.length > 0 ? (
+      {activePromotions.length > 0 ? (
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {activePromotions.map((promo) => (
             <PromoCard key={promo.id} promo={promo} />

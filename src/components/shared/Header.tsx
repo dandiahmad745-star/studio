@@ -3,27 +3,23 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Coffee, Menu, Gift, MessageSquare, Clock, Users, Briefcase, Music, Star, LogOut, UserCircle } from 'lucide-react';
+import { Coffee, Menu, Gift, MessageSquare, Clock, Users, Briefcase, Music } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
-import { useData, useAuth } from '../Providers';
+import { useData } from '../Providers';
 import Image from 'next/image';
 import { Skeleton } from '../ui/skeleton';
 import { useEffect, useState } from 'react';
 import { getShopStatus } from '@/lib/shop-status';
 import { Badge } from '../ui/badge';
 import PageTransitionLoader from './PageTransitionLoader';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { Avatar, AvatarFallback } from '../ui/avatar';
-
 
 const mainNavLinks = [
   { href: '/', label: 'Menu', icon: Coffee },
   { href: '/promotions', label: 'Promotions', icon: Gift },
   { href: '/reviews', label: 'Reviews', icon: MessageSquare },
   { href: '/baristas', label: 'Our Baristas', icon: Users },
-  { href: '/membership', label: 'Membership', icon: Star },
 ];
 
 const MobileLink = ({ href, children, onClick }: { href: string, children: React.ReactNode, onClick?: () => void }) => (
@@ -50,7 +46,6 @@ const MobileExternalLink = ({ href, children }: { href: string, children: React.
 export default function Header() {
   const pathname = usePathname();
   const { settings, isLoading } = useData();
-  const { currentUser, customerLogout } = useAuth();
   const [isMobileSheetOpen, setIsMobileSheetOpen] = useState(false);
   const [shopStatus, setShopStatus] = useState<{isOpen: boolean; message: string} | null>(null);
 
@@ -128,41 +123,6 @@ export default function Header() {
         <div className="flex flex-1 items-center justify-end gap-2">
             <nav className="hidden items-center gap-2 md:flex">
                 {renderNavLinks(mainNavLinks)}
-                 {currentUser ? (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                                <Avatar>
-                                    <AvatarFallback>{currentUser.fullName.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-56" align="end" forceMount>
-                            <DropdownMenuLabel className="font-normal">
-                                <div className="flex flex-col space-y-1">
-                                    <p className="text-sm font-medium leading-none">{currentUser.fullName}</p>
-                                    <p className="text-xs leading-none text-muted-foreground">{currentUser.email}</p>
-                                </div>
-                            </DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild>
-                                <Link href="/profile">
-                                    <UserCircle className="mr-2 h-4 w-4" />
-                                    <span>Profil</span>
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={customerLogout}>
-                                <LogOut className="mr-2 h-4 w-4" />
-                                <span>Keluar</span>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                ) : (
-                    <Link href="/login">
-                        <Button>Login</Button>
-                    </Link>
-                )}
             </nav>
             <div className="md:hidden">
                 <Sheet open={isMobileSheetOpen} onOpenChange={setIsMobileSheetOpen}>
@@ -204,24 +164,6 @@ export default function Header() {
                                 </MobileExternalLink>
                             )}
                         </nav>
-                         <div className="mt-6">
-                            {currentUser ? (
-                                <div className="space-y-2">
-                                     <MobileLink href="/profile" onClick={() => setIsMobileSheetOpen(false)}>
-                                        <UserCircle className="h-5 w-5" />
-                                        Profil
-                                    </MobileLink>
-                                    <Button variant="outline" className="w-full justify-start" onClick={() => { customerLogout(); setIsMobileSheetOpen(false); }}>
-                                        <LogOut className="mr-2 h-4 w-4" />
-                                        Keluar
-                                    </Button>
-                                </div>
-                            ) : (
-                                <Link href="/login" className="w-full" onClick={() => setIsMobileSheetOpen(false)}>
-                                    <Button className="w-full">Login</Button>
-                                </Link>
-                            )}
-                        </div>
                     </div>
                 </SheetContent>
                 </Sheet>

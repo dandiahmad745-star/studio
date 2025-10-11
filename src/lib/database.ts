@@ -1,4 +1,4 @@
-import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage, UserProfile } from '@/lib/types';
+import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const findImage = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
@@ -126,7 +126,6 @@ export const initialCategories: string[] = ["Makanan", "Minuman", "Snack"];
 export const initialSchedules: Schedule[] = [];
 export const initialLeaveRequests: LeaveRequest[] = [];
 export const initialCustomerMessages: CustomerMessage[] = [];
-export const initialUsers: UserProfile[] = [];
 
 export const initialJobVacancies: JobVacancy[] = [
     {

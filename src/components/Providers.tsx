@@ -2,10 +2,10 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Toaster } from "@/components/ui/toaster";
-import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage, UserProfile } from '@/lib/types';
-import { initialMenuItems, initialPromotions, initialReviews, initialShopSettings, initialBaristas, initialCategories, initialSchedules, initialLeaveRequests, initialJobVacancies, initialCustomerMessages, initialUsers } from '@/lib/database';
+import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage } from '@/lib/types';
+import { initialMenuItems, initialPromotions, initialReviews, initialShopSettings, initialBaristas, initialCategories, initialSchedules, initialLeaveRequests, initialJobVacancies, initialCustomerMessages } from '@/lib/database';
 
 // --- LOCAL STORAGE GENERIC HOOK ---
 function usePersistentState<T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>, boolean] {
@@ -47,13 +47,8 @@ function usePersistentState<T>(key: string, initialValue: T): [T, React.Dispatch
 // --- AUTH CONTEXT ---
 interface AuthContextType {
   isAuthenticated: boolean | undefined; // Admin auth
-  currentUser: UserProfile | null; // Customer auth
   login: (password: string) => boolean; // Admin login
   logout: () => void; // Admin logout
-  customerLogin: (email: string, password: string) => boolean;
-  customerRegister: (fullName: string, email: string, password: string) => { success: boolean; message: string };
-  customerLogout: () => void;
-  addPoints: (userId: string, points: number) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -66,21 +61,12 @@ export const useAuth = () => {
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>(undefined);
-  const [users, setUsers] = usePersistentState<UserProfile[]>('kopimi_users', initialUsers);
-  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const router = useRouter();
-  const pathname = usePathname();
 
   useEffect(() => {
     const adminAuth = sessionStorage.getItem('kopimi-auth');
     setIsAuthenticated(adminAuth === 'true');
-
-    const customerAuthId = sessionStorage.getItem('kopimi-customer-auth');
-    if (customerAuthId) {
-      const user = users.find(u => u.id === customerAuthId);
-      setCurrentUser(user || null);
-    }
-  }, [users, pathname]);
+  }, []);
 
   const login = (password: string) => {
     if (password === 'admin123') {
@@ -97,54 +83,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     router.push('/admin/login');
   };
 
-  const customerLogin = (email: string, password: string) => {
-    const user = users.find(u => u.email === email && u.password === password);
-    if (user) {
-        sessionStorage.setItem('kopimi-customer-auth', user.id);
-        setCurrentUser(user);
-        return true;
-    }
-    return false;
-  };
-
-  const customerRegister = (fullName: string, email: string, password: string) => {
-    if (users.find(u => u.email === email)) {
-        return { success: false, message: "Email already exists." };
-    }
-    const newUser: UserProfile = {
-        id: `user-${Date.now()}`,
-        fullName,
-        email,
-        password, // In a real app, this should be hashed
-        points: 0,
-    };
-    setUsers(prev => [...prev, newUser]);
-    sessionStorage.setItem('kopimi-customer-auth', newUser.id);
-    setCurrentUser(newUser);
-    return { success: true, message: "Registration successful!" };
-  };
-
-  const customerLogout = () => {
-    sessionStorage.removeItem('kopimi-customer-auth');
-    setCurrentUser(null);
-    router.push('/');
-  };
-
-  const addPoints = (userId: string, points: number) => {
-    setUsers(prevUsers => {
-        const newUsers = prevUsers.map(user => 
-            user.id === userId ? { ...user, points: user.points + points } : user
-        );
-        // Also update current user state if they are the one getting points
-        if (currentUser?.id === userId) {
-            setCurrentUser(prev => prev ? { ...prev, points: prev.points + points } : null);
-        }
-        return newUsers;
-    });
-  };
-
   return (
-    <AuthContext.Provider value={{ isAuthenticated, currentUser, login, logout, customerLogin, customerRegister, customerLogout, addPoints }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

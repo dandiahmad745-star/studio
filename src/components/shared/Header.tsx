@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Coffee, Menu, Gift, MessageSquare, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -21,7 +21,6 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
-  const router = useRouter();
   const { settings, isLoading } = useData();
   const [shopStatus, setShopStatus] = useState<{isOpen: boolean; message: string} | null>(null);
 
@@ -84,43 +83,39 @@ export default function Header() {
             </div>
         </Link>
 
-        <nav className="hidden items-center gap-2 md:flex">
-          {renderNavLinks()}
-        </nav>
-
         <div className="flex items-center gap-2">
-          <Button onClick={() => router.push('/admin')}>
-            Admin
-          </Button>
-          <div className="md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader>
-                  <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
-                </SheetHeader>
-                <div className="flex h-full flex-col">
-                    <Link href="/" className="mb-6 flex items-center gap-2">
-                        {isLoading ? (
-                            <Skeleton className="h-10 w-10 rounded-full" />
-                        ) : settings.logo && (
-                            <Image src={settings.logo} alt="logo" width={40} height={40} className="rounded-full" />
-                        )}
-                        <span className="font-headline text-xl font-bold">
-                            {isLoading ? <Skeleton className="h-6 w-32" /> : settings.name}
-                        </span>
-                    </Link>
-                  <nav className="flex flex-col gap-4">
-                    {renderNavLinks(true)}
-                  </nav>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
+            <nav className="hidden items-center gap-2 md:flex">
+                {renderNavLinks()}
+            </nav>
+            <div className="md:hidden">
+                <Sheet>
+                <SheetTrigger asChild>
+                    <Button variant="outline" size="icon">
+                    <Menu className="h-5 w-5" />
+                    </Button>
+                </SheetTrigger>
+                <SheetContent side="right">
+                    <SheetHeader>
+                    <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
+                    </SheetHeader>
+                    <div className="flex h-full flex-col">
+                        <Link href="/" className="mb-6 flex items-center gap-2">
+                            {isLoading ? (
+                                <Skeleton className="h-10 w-10 rounded-full" />
+                            ) : settings.logo && (
+                                <Image src={settings.logo} alt="logo" width={40} height={40} className="rounded-full" />
+                            )}
+                            <span className="font-headline text-xl font-bold">
+                                {isLoading ? <Skeleton className="h-6 w-32" /> : settings.name}
+                            </span>
+                        </Link>
+                    <nav className="flex flex-col gap-4">
+                        {renderNavLinks(true)}
+                    </nav>
+                    </div>
+                </SheetContent>
+                </Sheet>
+            </div>
         </div>
       </div>
     </header>

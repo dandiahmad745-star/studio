@@ -15,7 +15,7 @@ export default function HomePage() {
     }, {} as Record<string, typeof menuItems>);
   }, [menuItems]);
 
-  const categoryOrder = ['Minuman', 'Makanan', 'Snack', 'Coffee', 'Beverage', 'Pastry', 'Sandwich'];
+  const categoryOrder = ['Minuman', 'Makanan', 'Snack'];
 
   const sortedCategories = useMemo(() => {
     return Object.keys(categorizedMenu).sort((a, b) => {

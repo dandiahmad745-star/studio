@@ -9,7 +9,7 @@ export const initialMenuItems: MenuItem[] = [
     name: 'Espresso',
     description: 'Minuman kopi konsentrat yang diseduh dengan menyemprotkan sedikit air yang hampir mendidih melalui biji kopi yang digiling halus.',
     price: 25000,
-    category: 'Coffee',
+    category: 'Minuman',
     image: findImage('coffee-2'),
   },
   {
@@ -17,7 +17,7 @@ export const initialMenuItems: MenuItem[] = [
     name: 'Latte',
     description: 'Minuman kopi yang dibuat dengan espresso dan susu kukus, dengan lapisan busa tipis di atasnya.',
     price: 35000,
-    category: 'Coffee',
+    category: 'Minuman',
     image: findImage('coffee-1'),
   },
   {
@@ -25,7 +25,7 @@ export const initialMenuItems: MenuItem[] = [
     name: 'Croissant',
     description: 'Roti mentega yang renyah dan bersisik, terinspirasi dari bentuk kipferl Austria.',
     price: 20000,
-    category: 'Pastry',
+    category: 'Makanan',
     image: findImage('pastry-1'),
   },
   {
@@ -33,7 +33,7 @@ export const initialMenuItems: MenuItem[] = [
     name: 'Club Sandwich',
     description: 'Sandwich lezat dengan kalkun, bacon, selada, tomat, dan mayones.',
     price: 75000,
-    category: 'Sandwich',
+    category: 'Makanan',
     image: findImage('sandwich-1'),
   },
   {
@@ -41,7 +41,7 @@ export const initialMenuItems: MenuItem[] = [
     name: 'Orange Juice',
     description: 'Jus jeruk peras segar, penuh vitamin.',
     price: 40000,
-    category: 'Beverage',
+    category: 'Minuman',
     image: findImage('juice-1'),
   },
 ];

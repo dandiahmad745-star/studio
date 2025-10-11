@@ -40,18 +40,20 @@ export default function MenuForm({ isOpen, setIsOpen, item }: MenuFormProps) {
   });
 
   useEffect(() => {
-    if (item) {
-      form.reset(item);
-      setImagePreview(item.image);
-    } else {
-      form.reset({
-        name: '',
-        description: '',
-        price: 0,
-        category: '',
-        image: '',
-      });
-      setImagePreview(null);
+    if (isOpen) {
+      if (item) {
+        form.reset(item);
+        setImagePreview(item.image);
+      } else {
+        form.reset({
+          name: '',
+          description: '',
+          price: 0,
+          category: '',
+          image: '',
+        });
+        setImagePreview(null);
+      }
     }
   }, [item, form, isOpen]);
 
@@ -124,7 +126,7 @@ export default function MenuForm({ isOpen, setIsOpen, item }: MenuFormProps) {
                   <FormItem>
                     <FormLabel>Price</FormLabel>
                     <FormControl>
-                      <Input type="number" step="0.01" {...field} />
+                      <Input type="number" step="1" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

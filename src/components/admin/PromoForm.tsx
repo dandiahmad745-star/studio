@@ -39,19 +39,21 @@ export default function PromoForm({ isOpen, setIsOpen, promo }: PromoFormProps) 
   });
 
   useEffect(() => {
-    if (promo) {
-      form.reset({
-        ...promo,
-        validFrom: new Date(promo.validFrom),
-        validUntil: new Date(promo.validUntil),
-      });
-    } else {
-      form.reset({
-        title: '',
-        description: '',
-        validFrom: undefined,
-        validUntil: undefined,
-      });
+    if (isOpen) {
+      if (promo) {
+        form.reset({
+          ...promo,
+          validFrom: new Date(promo.validFrom),
+          validUntil: new Date(promo.validUntil),
+        });
+      } else {
+        form.reset({
+          title: '',
+          description: '',
+          validFrom: undefined,
+          validUntil: undefined,
+        });
+      }
     }
   }, [promo, form, isOpen]);
 

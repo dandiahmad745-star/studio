@@ -4,7 +4,7 @@ export const menuItemSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1, { message: 'Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }),
-  price: z.coerce.number().positive({ message: 'Price must be a positive number' }),
+  price: z.coerce.number().int().positive({ message: 'Price must be a positive number' }),
   category: z.string().min(1, { message: 'Category is required' }),
   image: z.string().optional(),
 });

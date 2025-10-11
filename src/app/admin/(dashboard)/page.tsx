@@ -93,7 +93,7 @@ export default function MenuManagementPage() {
                     <TableCell>
                       <Badge variant="outline">{item.category}</Badge>
                     </TableCell>
-                    <TableCell className="hidden md:table-cell">${item.price.toFixed(2)}</TableCell>
+                    <TableCell className="hidden md:table-cell">Rp{item.price.toLocaleString('id-ID')}</TableCell>
                     <TableCell>
                       <AlertDialog>
                         <DropdownMenu>

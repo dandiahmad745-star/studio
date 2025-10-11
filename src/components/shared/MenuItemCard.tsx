@@ -28,7 +28,7 @@ export default function MenuItemCard({ item }: MenuItemCardProps) {
       </CardContent>
       <CardFooter className="p-4 pt-0">
         <p className="font-semibold text-primary">
-          ${item.price.toFixed(2)}
+          Rp{item.price.toLocaleString('id-ID')}
         </p>
       </CardFooter>
     </Card>

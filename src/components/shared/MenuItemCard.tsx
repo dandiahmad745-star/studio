@@ -11,7 +11,7 @@ export default function MenuItemCard({ item }: MenuItemCardProps) {
   return (
     <Card className="flex h-full flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
       <CardHeader className="p-0">
-        <div className="relative h-48 w-full">
+        <div className="relative w-full aspect-square">
           <Image
             src={item.image}
             alt={item.name}

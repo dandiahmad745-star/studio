@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Coffee, Menu, Gift, MessageSquare, Clock, Users } from 'lucide-react';
+import { Coffee, Menu, Gift, MessageSquare, Clock, Users, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
@@ -22,6 +22,7 @@ const mainNavLinks = [
 
 const mobileNavLinks = [
     ...mainNavLinks,
+    { href: '/jobs', label: 'Lowongan Kerja', icon: Briefcase },
 ]
 
 export default function Header() {

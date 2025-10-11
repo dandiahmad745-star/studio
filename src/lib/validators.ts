@@ -90,3 +90,11 @@ export const leaveRequestSchema = z.object({
     message: "Surat keterangan dokter wajib diunggah untuk alasan medis.",
     path: ['doctorNoteImage'],
 });
+
+export const jobVacancySchema = z.object({
+    id: z.string().optional(),
+    title: z.string().min(1, { message: "Title is required" }),
+    description: z.string().min(1, { message: "Description is required" }),
+    type: z.enum(['Full-time', 'Part-time', 'Internship']),
+    isActive: z.boolean(),
+});

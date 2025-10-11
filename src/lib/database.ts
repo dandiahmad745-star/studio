@@ -1,4 +1,4 @@
-import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest } from '@/lib/types';
+import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const findImage = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
@@ -124,6 +124,26 @@ export const initialCategories: string[] = ["Makanan", "Minuman", "Snack"];
 
 export const initialSchedules: Schedule[] = [];
 export const initialLeaveRequests: LeaveRequest[] = [];
+
+export const initialJobVacancies: JobVacancy[] = [
+    {
+        id: 'job-1',
+        title: 'Barista (Full-time)',
+        description: 'Kami mencari Barista berpengalaman untuk bergabung dengan tim kami. Anda harus bersemangat tentang kopi, ramah, dan dapat bekerja dalam lingkungan yang serba cepat. Pengalaman sebelumnya diutamakan.',
+        type: 'Full-time',
+        postedDate: new Date(new Date().setDate(new Date().getDate() - 3)).toISOString(),
+        isActive: true,
+    },
+    {
+        id: 'job-2',
+        title: 'Kitchen Staff (Part-time)',
+        description: 'Membantu persiapan makanan ringan dan menjaga kebersihan area dapur. Cocok untuk mahasiswa atau yang mencari pekerjaan paruh waktu. Tidak memerlukan pengalaman, yang penting mau belajar.',
+        type: 'Part-time',
+        postedDate: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString(),
+        isActive: true,
+    },
+];
+
 
 export const leaveReasons = [
     'Cuti Tahunan', 'Sakit dengan Surat Dokter', 'Sakit tanpa Surat Dokter', 'Keperluan Keluarga Mendesak', 'Pernikahan', 

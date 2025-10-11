@@ -70,3 +70,12 @@ export interface LeaveRequest {
     status: 'Pending' | 'Approved' | 'Rejected';
     doctorNoteImage?: string; // Base64 data URL
 }
+
+export interface JobVacancy {
+    id: string;
+    title: string;
+    description: string;
+    type: 'Full-time' | 'Part-time' | 'Internship';
+    postedDate: string; // ISO date string
+    isActive: boolean;
+}

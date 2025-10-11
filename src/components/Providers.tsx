@@ -1,54 +1,46 @@
 
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Toaster } from "@/components/ui/toaster";
 import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage } from '@/lib/types';
-import { initialMenuItems, initialPromotions, initialReviews, initialShopSettings, initialBaristas, initialCategories, initialSchedules, initialLeaveRequests, initialJobVacancies, initialCustomerMessages } from '@/lib/database';
+import { initialDatabase } from '@/lib/database';
+import { useToast } from '@/hooks/use-toast';
+import _ from 'lodash';
 
-// --- LOCAL STORAGE GENERIC HOOK ---
-function usePersistentState<T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>, boolean] {
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [state, setState] = useState<T>(initialValue);
+// --- DATABASE TYPES ---
+type Database = {
+  menuItems: MenuItem[];
+  promotions: Promotion[];
+  reviews: Review[];
+  settings: ShopSettings;
+  baristas: Barista[];
+  categories: string[];
+  schedules: Schedule[];
+  leaveRequests: LeaveRequest[];
+  jobVacancies: JobVacancy[];
+  customerMessages: CustomerMessage[];
+};
 
-  useEffect(() => {
-    try {
-      const item = window.localStorage.getItem(key);
-      if (item) {
-        setState(JSON.parse(item));
-      } else {
-        window.localStorage.setItem(key, JSON.stringify(initialValue));
-      }
-    } catch (error) {
-      console.error(`Error reading localStorage key “${key}”:`, error);
-    } finally {
-        setIsInitialized(true);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key]);
-
-  const setPersistedState: React.Dispatch<React.SetStateAction<T>> = (value) => {
-    setState((prevState) => {
-      const newState = typeof value === 'function' ? (value as (prevState: T) => T)(prevState) : value;
-      try {
-        window.localStorage.setItem(key, JSON.stringify(newState));
-      } catch (error) {
-        console.error(`Error setting localStorage key “${key}”:`, error);
-      }
-      return newState;
-    });
-  };
-
-  return [state, setPersistedState, isInitialized];
-}
-
+type Setters = {
+  setMenuItems: React.Dispatch<React.SetStateAction<MenuItem[]>>;
+  setPromotions: React.Dispatch<React.SetStateAction<Promotion[]>>;
+  setReviews: React.Dispatch<React.SetStateAction<Review[]>>;
+  setSettings: React.Dispatch<React.SetStateAction<ShopSettings>>;
+  setBaristas: React.Dispatch<React.SetStateAction<Barista[]>>;
+  setCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  setSchedules: React.Dispatch<React.SetStateAction<Schedule[]>>;
+  setLeaveRequests: React.Dispatch<React.SetStateAction<LeaveRequest[]>>;
+  setJobVacancies: React.Dispatch<React.SetStateAction<JobVacancy[]>>;
+  setCustomerMessages: React.Dispatch<React.SetStateAction<CustomerMessage[]>>;
+};
 
 // --- AUTH CONTEXT ---
 interface AuthContextType {
-  isAuthenticated: boolean | undefined; // Admin auth
-  login: (password: string) => boolean; // Admin login
-  logout: () => void; // Admin logout
+  isAuthenticated: boolean | undefined;
+  login: (password: string) => boolean;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -90,29 +82,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-
 // --- DATA CONTEXT ---
-interface DataContextType {
-  menuItems: MenuItem[];
-  promotions: Promotion[];
-  reviews: Review[];
-  settings: ShopSettings;
-  baristas: Barista[];
-  categories: string[];
-  schedules: Schedule[];
-  leaveRequests: LeaveRequest[];
-  jobVacancies: JobVacancy[];
-  customerMessages: CustomerMessage[];
-  setMenuItems: React.Dispatch<React.SetStateAction<MenuItem[]>>;
-  setPromotions: React.Dispatch<React.SetStateAction<Promotion[]>>;
-  setReviews: React.Dispatch<React.SetStateAction<Review[]>>;
-  setSettings: React.Dispatch<React.SetStateAction<ShopSettings>>;
-  setBaristas: React.Dispatch<React.SetStateAction<Barista[]>>;
-  setCategories: React.Dispatch<React.SetStateAction<string[]>>;
-  setSchedules: React.Dispatch<React.SetStateAction<Schedule[]>>;
-  setLeaveRequests: React.Dispatch<React.SetStateAction<LeaveRequest[]>>;
-  setJobVacancies: React.Dispatch<React.SetStateAction<JobVacancy[]>>;
-  setCustomerMessages: React.Dispatch<React.SetStateAction<CustomerMessage[]>>;
+interface DataContextType extends Database, Setters {
   isLoading: boolean;
 }
 
@@ -125,38 +96,103 @@ export const useData = () => {
 };
 
 const DataProvider = ({ children }: { children: ReactNode }) => {
-    const [menuItems, setMenuItems, menuInitialized] = usePersistentState<MenuItem[]>('kopimi_menu', initialMenuItems);
-    const [promotions, setPromotions, promosInitialized] = usePersistentState<Promotion[]>('kopimi_promos', initialPromotions);
-    const [reviews, setReviews, reviewsInitialized] = usePersistentState<Review[]>('kopimi_reviews', initialReviews);
-    const [settings, setSettings, settingsInitialized] = usePersistentState<ShopSettings>('kopimi_settings', initialShopSettings);
-    const [baristas, setBaristas, baristasInitialized] = usePersistentState<Barista[]>('kopimi_baristas', initialBaristas);
-    const [categories, setCategories, categoriesInitialized] = usePersistentState<string[]>('kopimi_categories', initialCategories);
-    const [schedules, setSchedules, schedulesInitialized] = usePersistentState<Schedule[]>('kopimi_schedules', initialSchedules);
-    const [leaveRequests, setLeaveRequests, leaveRequestsInitialized] = usePersistentState<LeaveRequest[]>('kopimi_leave_requests', initialLeaveRequests);
-    const [jobVacancies, setJobVacancies, jobsInitialized] = usePersistentState<JobVacancy[]>('kopimi_jobs', initialJobVacancies);
-    const [customerMessages, setCustomerMessages, messagesInitialized] = usePersistentState<CustomerMessage[]>('kopimi_messages', initialCustomerMessages);
-    
-    const isLoading = !menuInitialized || !promosInitialized || !reviewsInitialized || !settingsInitialized || !baristasInitialized || !categoriesInitialized || !schedulesInitialized || !leaveRequestsInitialized || !jobsInitialized || !messagesInitialized;
+  const [db, setDb] = useState<Database | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
+
+  // Debounced save function
+  const debouncedSave = useCallback(
+    _.debounce(async (newDb: Database) => {
+      try {
+        await fetch('/api/database', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newDb),
+        });
+      } catch (error) {
+        console.error('Failed to save data:', error);
+        toast({
+          variant: 'destructive',
+          title: 'Save Error',
+          description: 'Could not sync changes with the server.',
+        });
+      }
+    }, 1000), // 1-second debounce delay
+    [toast]
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch('/api/database');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const data = await response.json();
+        setDb(data);
+      } catch (error) {
+        console.error('Error fetching data, using initial data:', error);
+        setDb(initialDatabase);
+        toast({
+          variant: 'destructive',
+          title: 'Connection Error',
+          description: 'Could not fetch data from server. Displaying local data.',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, [toast]);
+
+  const createSetter = <K extends keyof Database>(key: K): ((value: React.SetStateAction<Database[K]>) => void) => {
+    return (value) => {
+      setDb(prevDb => {
+        if (!prevDb) return null;
+        const prevValue = prevDb[key];
+        const newValue = typeof value === 'function' ? (value as (prevState: Database[K]) => Database[K])(prevValue) : value;
+        
+        const newDb = { ...prevDb, [key]: newValue };
+        
+        // Save the entire updated database to the backend
+        debouncedSave(newDb);
+        
+        return newDb;
+      });
+    };
+  };
+
+  const contextValue: DataContextType = {
+    menuItems: db?.menuItems ?? [],
+    promotions: db?.promotions ?? [],
+    reviews: db?.reviews ?? [],
+    settings: db?.settings ?? initialDatabase.settings,
+    baristas: db?.baristas ?? [],
+    categories: db?.categories ?? [],
+    schedules: db?.schedules ?? [],
+    leaveRequests: db?.leaveRequests ?? [],
+    jobVacancies: db?.jobVacancies ?? [],
+    customerMessages: db?.customerMessages ?? [],
+    setMenuItems: createSetter('menuItems'),
+    setPromotions: createSetter('promotions'),
+    setReviews: createSetter('reviews'),
+    setSettings: createSetter('settings'),
+    setBaristas: createSetter('baristas'),
+    setCategories: createSetter('categories'),
+    setSchedules: createSetter('schedules'),
+    setLeaveRequests: createSetter('leaveRequests'),
+    setJobVacancies: createSetter('jobVacancies'),
+    setCustomerMessages: createSetter('customerMessages'),
+    isLoading: isLoading || !db,
+  };
 
   return (
-    <DataContext.Provider value={{ 
-        menuItems, setMenuItems, 
-        promotions, setPromotions, 
-        reviews, setReviews, 
-        settings, setSettings, 
-        baristas, setBaristas, 
-        categories, setCategories,
-        schedules, setSchedules,
-        leaveRequests, setLeaveRequests,
-        jobVacancies, setJobVacancies,
-        customerMessages, setCustomerMessages,
-        isLoading 
-    }}>
+    <DataContext.Provider value={contextValue}>
       {children}
     </DataContext.Provider>
   );
 };
-
 
 // --- MAIN PROVIDERS COMPONENT ---
 export const Providers = ({ children }: { children: ReactNode }) => {

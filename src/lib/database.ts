@@ -1,9 +1,9 @@
-import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage } from '@/lib/types';
+import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage, Database } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const findImage = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
 
-export const initialMenuItems: MenuItem[] = [
+const initialMenuItems: MenuItem[] = [
   {
     id: '1',
     name: 'Espresso',
@@ -46,7 +46,7 @@ export const initialMenuItems: MenuItem[] = [
   },
 ];
 
-export const initialPromotions: Promotion[] = [
+const initialPromotions: Promotion[] = [
   {
     id: 'promo-1',
     title: 'Happy Hour!',
@@ -63,7 +63,7 @@ export const initialPromotions: Promotion[] = [
   },
 ];
 
-export const initialReviews: Review[] = [
+const initialReviews: Review[] = [
   {
     id: 'review-1',
     customerName: 'Alice',
@@ -81,7 +81,7 @@ export const initialReviews: Review[] = [
   },
 ];
 
-export const initialShopSettings: ShopSettings = {
+const initialShopSettings: ShopSettings = {
   name: 'Kopimi Kafe',
   address: '123 Coffee Lane, Flavor Town, 12345',
   phone: '555-123-4567',
@@ -100,7 +100,7 @@ export const initialShopSettings: ShopSettings = {
   playlistUrl: 'https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M',
 };
 
-export const initialBaristas: Barista[] = [
+const initialBaristas: Barista[] = [
     {
       id: 'barista-1',
       name: 'Rian',
@@ -121,13 +121,13 @@ export const initialBaristas: Barista[] = [
     },
 ];
 
-export const initialCategories: string[] = ["Makanan", "Minuman", "Snack"];
+const initialCategories: string[] = ["Makanan", "Minuman", "Snack"];
 
-export const initialSchedules: Schedule[] = [];
-export const initialLeaveRequests: LeaveRequest[] = [];
-export const initialCustomerMessages: CustomerMessage[] = [];
+const initialSchedules: Schedule[] = [];
+const initialLeaveRequests: LeaveRequest[] = [];
+const initialCustomerMessages: CustomerMessage[] = [];
 
-export const initialJobVacancies: JobVacancy[] = [
+const initialJobVacancies: JobVacancy[] = [
     {
         id: 'job-1',
         title: 'Barista (Full-time)',
@@ -145,6 +145,19 @@ export const initialJobVacancies: JobVacancy[] = [
         isActive: true,
     },
 ];
+
+export const initialDatabase: Database = {
+    menuItems: initialMenuItems,
+    promotions: initialPromotions,
+    reviews: initialReviews,
+    settings: initialShopSettings,
+    baristas: initialBaristas,
+    categories: initialCategories,
+    schedules: initialSchedules,
+    leaveRequests: initialLeaveRequests,
+    jobVacancies: initialJobVacancies,
+    customerMessages: initialCustomerMessages
+};
 
 
 export const leaveReasons = [

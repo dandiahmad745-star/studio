@@ -91,3 +91,16 @@ export interface CustomerMessage {
     date: string; // ISO date string
     status: 'read' | 'unread';
 }
+
+export interface Database {
+    menuItems: MenuItem[];
+    promotions: Promotion[];
+    reviews: Review[];
+    settings: ShopSettings;
+    baristas: Barista[];
+    categories: string[];
+    schedules: Schedule[];
+    leaveRequests: LeaveRequest[];
+    jobVacancies: JobVacancy[];
+    customerMessages: CustomerMessage[];
+}

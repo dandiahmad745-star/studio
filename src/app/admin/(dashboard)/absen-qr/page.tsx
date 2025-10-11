@@ -1,4 +1,4 @@
-// This is a new file
+
 "use client";
 
 import { useEffect, useState, useRef } from 'react';
@@ -37,45 +37,83 @@ export default function AbsenQrPage() {
         const printContent = qrCardRef.current;
         if (!printContent) return;
 
-        const originalContents = document.body.innerHTML;
-        const printSection = printContent.innerHTML;
+        // Create an iframe to print from
+        const iframe = document.createElement('iframe');
+        iframe.style.position = 'absolute';
+        iframe.style.width = '0';
+        iframe.style.height = '0';
+        iframe.style.border = '0';
+        document.body.appendChild(iframe);
         
-        document.body.innerHTML = `
+        const printDocument = iframe.contentWindow?.document;
+        if (!printDocument) return;
+
+        printDocument.open();
+        printDocument.write(`
             <html>
                 <head>
                     <title>Print QR Code</title>
                     <style>
-                        @media print {
-                            body { 
-                                display: flex; 
-                                justify-content: center; 
-                                align-items: center; 
-                                height: 100vh;
-                                margin: 0;
-                            }
-                            @page { 
-                                size: auto;
-                                margin: 20mm; 
-                            }
+                        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+                        body {
+                            font-family: 'Poppins', sans-serif;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            margin: 0;
+                            -webkit-print-color-adjust: exact;
+                        }
+                        .print-card {
+                           border: 1px solid #e5e7eb;
+                           border-radius: 0.5rem;
+                           padding: 1.5rem;
+                           text-align: center;
+                           width: 350px;
+                        }
+                        .print-title {
+                            font-size: 1.875rem;
+                            font-weight: 600;
+                        }
+                        .print-description {
+                            color: #6b7280;
+                            font-size: 0.875rem;
+                        }
+                        .print-content {
+                            padding: 2rem;
+                        }
+                        @page { 
+                            size: auto;
+                            margin: 20mm; 
                         }
                     </style>
                 </head>
                 <body>
-                    ${printSection}
+                    <div class="print-card">
+                       <div class="print-title">Absen Masuk</div>
+                       <div class="print-description">Scan untuk mencatat kehadiran Anda di ${settings.name}.</div>
+                       <div class="print-content">
+                           ${printContent.querySelector('canvas')?.outerHTML || ''}
+                       </div>
+                    </div>
                 </body>
             </html>
-        `;
+        `);
+        printDocument.close();
+        
+        iframe.contentWindow?.focus();
+        iframe.contentWindow?.print();
 
-        window.print();
-        document.body.innerHTML = originalContents;
-        // The page needs to be reloaded to re-initialize React components
-        window.location.reload();
+        // Clean up the iframe after printing
+        setTimeout(() => {
+            document.body.removeChild(iframe);
+        }, 500);
     };
 
     return (
         <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
             <PageHeader title="QR Code untuk Absen" description="Cetak QR Code ini dan tempel di dekat pintu masuk untuk memudahkan barista melakukan absen.">
-                <Button onClick={handlePrint}>
+                <Button onClick={handlePrint} disabled={!qrValue || isLoading}>
                     <Printer className="mr-2 h-4 w-4" />
                     Cetak QR Code
                 </Button>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Coffee, Menu, Gift, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { useData } from '../Providers';
 import Image from 'next/image';
@@ -66,6 +66,9 @@ export default function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
+                <SheetHeader>
+                  <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
+                </SheetHeader>
                 <div className="flex h-full flex-col">
                     <Link href="/" className="mb-6 flex items-center gap-2">
                         {settings.logo && (

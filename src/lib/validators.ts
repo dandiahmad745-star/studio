@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { medicalLeaveReasons } from './database';
 
 export const menuItemSchema = z.object({
   id: z.string().optional(),
@@ -74,7 +75,17 @@ export const leaveRequestSchema = z.object({
     startDate: z.date({ required_error: 'Start date is required.' }),
     endDate: z.date({ required_error: 'End date is required.' }),
     reason: z.string().min(1, "Please select a reason."),
+    doctorNoteImage: z.string().optional(),
 }).refine(data => data.endDate >= data.startDate, {
     message: 'End date cannot be before start date',
     path: ['endDate'],
+}).refine(data => {
+    // If the reason is medical, a doctor's note is required.
+    if (medicalLeaveReasons.includes(data.reason)) {
+      return !!data.doctorNoteImage;
+    }
+    return true;
+}, {
+    message: "Surat keterangan dokter wajib diunggah untuk alasan medis.",
+    path: ['doctorNoteImage'],
 });

@@ -134,3 +134,14 @@ export const leaveReasons = [
     'Kendaraan Bermasalah', 'Menghadiri Seminar', 'Ujian Akademis', 'Acara Sekolah Anak', 'Isolasi Mandiri',
     'Vaksinasi COVID-19', 'Efek Samping Vaksin', 'Keperluan Adat', 'Lain-lain (Memerlukan Keterangan)', 'Cuti Tidak Dibayar'
 ];
+
+export const medicalLeaveReasons = [
+    'Sakit dengan Surat Dokter',
+    'Janji Temu Medis',
+    'Kecelakaan',
+    'Pemulihan Pasca Sakit',
+    'Isolasi Mandiri',
+    'Vaksinasi COVID-19',
+    'Efek Samping Vaksin',
+    'Donor Darah',
+];

@@ -8,21 +8,25 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, Upload } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { useData } from '../Providers';
 import { useToast } from '@/hooks/use-toast';
 import { leaveRequestSchema } from '@/lib/validators';
-import { leaveReasons } from '@/lib/database';
+import { leaveReasons, medicalLeaveReasons } from '@/lib/database';
 import { LeaveRequest } from '@/lib/types';
+import { useState } from 'react';
+import Image from 'next/image';
+import { Input } from '../ui/input';
 
 type LeaveRequestFormValues = z.infer<typeof leaveRequestSchema>;
 
 export default function LeaveRequestForm() {
   const { baristas, setLeaveRequests } = useData();
   const { toast } = useToast();
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const form = useForm<LeaveRequestFormValues>({
     resolver: zodResolver(leaveRequestSchema),
@@ -32,6 +36,22 @@ export default function LeaveRequestForm() {
     },
   });
 
+  const reasonValue = form.watch('reason');
+  const showDoctorNoteUpload = medicalLeaveReasons.includes(reasonValue);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        form.setValue('doctorNoteImage', result, { shouldValidate: true });
+        setImagePreview(result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   function onSubmit(data: LeaveRequestFormValues) {
     const newRequest: LeaveRequest = {
         ...data,
@@ -39,6 +59,7 @@ export default function LeaveRequestForm() {
         status: 'Pending',
         startDate: format(data.startDate, 'yyyy-MM-dd'),
         endDate: format(data.endDate, 'yyyy-MM-dd'),
+        doctorNoteImage: data.doctorNoteImage,
     };
     setLeaveRequests(prev => [newRequest, ...prev]);
     toast({
@@ -46,6 +67,7 @@ export default function LeaveRequestForm() {
       description: 'Pengajuan cuti/izin Anda telah berhasil dikirim.',
     });
     form.reset();
+    setImagePreview(null);
   }
 
   return (
@@ -151,6 +173,27 @@ export default function LeaveRequestForm() {
             </FormItem>
           )}
         />
+
+        {showDoctorNoteUpload && (
+          <FormField
+            control={form.control}
+            name="doctorNoteImage"
+            render={() => (
+              <FormItem>
+                <FormLabel>Surat Keterangan Dokter</FormLabel>
+                <FormControl>
+                  <Input type="file" accept="image/*" onChange={handleFileChange} />
+                </FormControl>
+                {imagePreview && (
+                  <div className="mt-2 relative w-full h-40">
+                    <Image src={imagePreview} alt="Pratinjau Surat Dokter" fill className="rounded-md object-cover" />
+                  </div>
+                )}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <Button type="submit" className="w-full">Kirim Pengajuan</Button>
       </form>
     </Form>

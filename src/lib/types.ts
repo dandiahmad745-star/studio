@@ -67,4 +67,5 @@ export interface LeaveRequest {
     endDate: string; // YYYY-MM-DD
     reason: string;
     status: 'Pending' | 'Approved' | 'Rejected';
+    doctorNoteImage?: string; // Base64 data URL
 }

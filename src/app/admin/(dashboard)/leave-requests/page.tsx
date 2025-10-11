@@ -8,10 +8,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, Paperclip } from 'lucide-react';
 import { format } from 'date-fns';
 import { LeaveRequest } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import Image from 'next/image';
 
 export default function LeaveRequestsPage() {
   const { leaveRequests, setLeaveRequests, baristas, isLoading } = useData();
@@ -48,13 +50,14 @@ export default function LeaveRequestsPage() {
                 <TableHead>Dates</TableHead>
                 <TableHead className="hidden md:table-cell">Reason</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead>Attachment</TableHead>
                 <TableHead><span className="sr-only">Actions</span></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="h-24 text-center">Loading requests...</TableCell>
+                  <TableCell colSpan={6} className="h-24 text-center">Loading requests...</TableCell>
                 </TableRow>
               ) : sortedRequests.length > 0 ? (
                 sortedRequests.map(request => (
@@ -70,6 +73,35 @@ export default function LeaveRequestsPage() {
                         request.status === 'Rejected' ? 'destructive' :
                         'secondary'
                       }>{request.status}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      {request.doctorNoteImage ? (
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="outline" size="icon">
+                              <Paperclip className="h-4 w-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-xl">
+                            <DialogHeader>
+                              <DialogTitle>Surat Keterangan Dokter</DialogTitle>
+                              <DialogDescription>
+                                Diajukan oleh {getBaristaName(request.baristaId)} untuk tanggal {format(new Date(request.startDate), 'd MMM yyyy')}.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="relative mt-4 h-[60vh] w-full">
+                                <Image
+                                    src={request.doctorNoteImage}
+                                    alt="Surat Dokter"
+                                    fill
+                                    className="object-contain"
+                                />
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
                     </TableCell>
                     <TableCell>
                       <DropdownMenu>
@@ -96,7 +128,7 @@ export default function LeaveRequestsPage() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={5} className="h-24 text-center">No leave requests found.</TableCell>
+                  <TableCell colSpan={6} className="h-24 text-center">No leave requests found.</TableCell>
                 </TableRow>
               )}
             </TableBody>

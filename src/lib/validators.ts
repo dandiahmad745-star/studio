@@ -59,6 +59,7 @@ export const settingsSchema = z.object({
   logo: z.string().min(1, { message: 'Logo is required' }),
   operatingHours: operatingHoursSchema.optional(),
   whatsappNumberForAbsence: z.string().optional(),
+  playlistUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')),
 });
 
 export const baristaSchema = z.object({

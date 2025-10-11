@@ -45,12 +45,7 @@ export default function SettingsForm() {
   function onSubmit(data: SettingsFormValues) {
     setSettings(prev => ({
         ...prev,
-        name: data.name,
-        address: data.address,
-        phone: data.phone,
-        email: data.email,
-        logo: data.logo,
-        whatsappNumberForAbsence: data.whatsappNumberForAbsence,
+        ...data,
     }));
     toast({
       title: 'Settings Saved',
@@ -130,6 +125,22 @@ export default function SettingsForm() {
                 <FormMessage />
                 </FormItem>
             )}
+        />
+        <FormField
+          control={form.control}
+          name="playlistUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cafe Playlist URL</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="https://open.spotify.com/playlist/..." />
+              </FormControl>
+              <FormDescription>
+                Link to your public playlist (Spotify, YouTube Music, etc.).
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
         <FormItem>
             <FormLabel>Logo</FormLabel>

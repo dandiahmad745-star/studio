@@ -97,6 +97,7 @@ export const initialShopSettings: ShopSettings = {
     sunday: { isOpen: false, open: '09:00', close: '23:00' },
   },
   whatsappNumberForAbsence: '6285848651208',
+  playlistUrl: 'https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M',
 };
 
 export const initialBaristas: Barista[] = [

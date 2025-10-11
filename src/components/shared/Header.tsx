@@ -60,6 +60,24 @@ export default function Header() {
         {link.label}
       </Link>
     ));
+  
+  const renderMobileNavLinks = (links: typeof mobileNavLinks, isMobile = false) =>
+    links.map((link) => (
+      <Link
+        key={link.href}
+        href={link.href}
+        className={cn(
+          'flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors',
+          pathname === link.href
+            ? 'bg-primary/10 text-primary'
+            : 'text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground',
+          isMobile && 'text-lg'
+        )}
+      >
+        <link.icon className="h-5 w-5" />
+        {link.label}
+      </Link>
+    ));
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -127,7 +145,7 @@ export default function Header() {
                             </span>
                         </Link>
                     <nav className="flex flex-col gap-4">
-                        {renderNavLinks(mobileNavLinks, true)}
+                        {renderMobileNavLinks(mobileNavLinks, true)}
                     </nav>
                     </div>
                 </SheetContent>

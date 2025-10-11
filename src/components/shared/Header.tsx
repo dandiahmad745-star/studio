@@ -65,23 +65,23 @@ export default function Header() {
             ) : settings.logo && (
                 <Image src={settings.logo} alt="logo" width={40} height={40} className="rounded-full" />
             )}
-          <div className='flex flex-col'>
-            <span className="font-headline text-xl font-bold leading-none">
-                {isLoading ? <Skeleton className="h-6 w-32" /> : settings.name}
-            </span>
-            {shopStatus && (
-                 <Badge 
-                    variant={shopStatus.isOpen ? 'default' : 'destructive'} 
-                    className={cn(
-                        "mt-1 w-fit gap-1.5 px-2 py-0.5 text-xs font-medium leading-none",
-                        shopStatus.isOpen ? "bg-green-600/10 text-green-700 border-green-600/20" : "bg-red-600/10 text-red-700 border-red-600/20"
-                    )}
-                >
-                    <Clock className="h-3 w-3" />
-                    <span>{shopStatus.message}</span>
-                </Badge>
-            )}
-          </div>
+            <div className='flex flex-col'>
+              <span className="font-headline text-xl font-bold leading-none">
+                  {isLoading ? <Skeleton className="h-6 w-32" /> : settings.name}
+              </span>
+              {shopStatus && (
+                  <Badge 
+                      variant={shopStatus.isOpen ? 'default' : 'destructive'} 
+                      className={cn(
+                          "mt-1 w-fit gap-1.5 px-2 py-0.5 text-xs font-medium leading-none",
+                          shopStatus.isOpen ? "bg-green-600/10 text-green-700 border-green-600/20" : "bg-red-600/10 text-red-700 border-red-600/20"
+                      )}
+                  >
+                      <Clock className="h-3 w-3" />
+                      <span>{shopStatus.message}</span>
+                  </Badge>
+              )}
+            </div>
         </Link>
 
         <nav className="hidden items-center gap-2 md:flex">

@@ -1,7 +1,7 @@
 // This is a new file
 "use client";
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useData } from '@/components/Providers';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

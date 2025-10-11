@@ -12,12 +12,13 @@ import {
   SidebarMenuButton,
   SidebarFooter
 } from '../ui/sidebar';
-import { Coffee, Gift, LayoutDashboard, LogOut, MessageSquare, Settings, Users } from 'lucide-react';
+import { Coffee, Gift, LayoutDashboard, LogOut, MessageSquare, Settings, Users, FolderKanban } from 'lucide-react';
 import Image from 'next/image';
 
 const adminNavLinks = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/menu', label: 'Menu', icon: Coffee },
+  { href: '/admin/categories', label: 'Categories', icon: FolderKanban },
   { href: '/admin/promotions', label: 'Promotions', icon: Gift },
   { href: '/admin/reviews', label: 'Reviews', icon: MessageSquare },
   { href: '/admin/baristas', label: 'Baristas', icon: Users },
@@ -28,6 +29,13 @@ export default function AdminSidebar() {
   const pathname = usePathname();
   const { logout } = useAuth();
   const { settings } = useData();
+
+  const isExactOrParent = (href: string) => {
+    if (href === '/admin') {
+      return pathname === href;
+    }
+    return pathname.startsWith(href);
+  };
 
   return (
     <>
@@ -48,7 +56,7 @@ export default function AdminSidebar() {
             <SidebarMenuItem key={link.href}>
               <Link href={link.href} className="w-full">
                 <SidebarMenuButton
-                  isActive={pathname.startsWith(link.href) && (link.href !== '/admin' || pathname === '/admin')}
+                  isActive={isExactOrParent(link.href)}
                   className="w-full justify-start"
                 >
                   <link.icon className="h-4 w-4" />

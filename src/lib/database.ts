@@ -114,3 +114,5 @@ export const initialBaristas: Barista[] = [
       instagram: 'sari.brews',
     },
 ];
+
+export const initialCategories: string[] = ["Makanan", "Minuman", "Snack"];

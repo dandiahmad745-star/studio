@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { useRouter } from 'next/navigation';
 import { Toaster } from "@/components/ui/toaster";
 import { MenuItem, Promotion, Review, ShopSettings, Barista } from '@/lib/types';
-import { initialMenuItems, initialPromotions, initialReviews, initialShopSettings, initialBaristas } from '@/lib/database';
+import { initialMenuItems, initialPromotions, initialReviews, initialShopSettings, initialBaristas, initialCategories } from '@/lib/database';
 
 // --- LOCAL STORAGE GENERIC HOOK ---
 function usePersistentState<T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>, boolean] {
@@ -106,11 +106,13 @@ interface DataContextType {
   reviews: Review[];
   settings: ShopSettings;
   baristas: Barista[];
+  categories: string[];
   setMenuItems: React.Dispatch<React.SetStateAction<MenuItem[]>>;
   setPromotions: React.Dispatch<React.SetStateAction<Promotion[]>>;
   setReviews: React.Dispatch<React.SetStateAction<Review[]>>;
   setSettings: React.Dispatch<React.SetStateAction<ShopSettings>>;
   setBaristas: React.Dispatch<React.SetStateAction<Barista[]>>;
+  setCategories: React.Dispatch<React.SetStateAction<string[]>>;
   isLoading: boolean;
 }
 
@@ -128,11 +130,12 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
     const [reviews, setReviews, reviewsInitialized] = usePersistentState<Review[]>('kopimi_reviews', initialReviews);
     const [settings, setSettings, settingsInitialized] = usePersistentState<ShopSettings>('kopimi_settings', initialShopSettings);
     const [baristas, setBaristas, baristasInitialized] = usePersistentState<Barista[]>('kopimi_baristas', initialBaristas);
+    const [categories, setCategories, categoriesInitialized] = usePersistentState<string[]>('kopimi_categories', initialCategories);
     
-    const isLoading = !menuInitialized || !promosInitialized || !reviewsInitialized || !settingsInitialized || !baristasInitialized;
+    const isLoading = !menuInitialized || !promosInitialized || !reviewsInitialized || !settingsInitialized || !baristasInitialized || !categoriesInitialized;
 
   return (
-    <DataContext.Provider value={{ menuItems, setMenuItems, promotions, setPromotions, reviews, setReviews, settings, setSettings, baristas, setBaristas, isLoading }}>
+    <DataContext.Provider value={{ menuItems, setMenuItems, promotions, setPromotions, reviews, setReviews, settings, setSettings, baristas, setBaristas, categories, setCategories, isLoading }}>
       {children}
     </DataContext.Provider>
   );

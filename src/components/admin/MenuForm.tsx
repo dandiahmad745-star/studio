@@ -24,10 +24,8 @@ interface MenuFormProps {
   item: MenuItem | null;
 }
 
-const categories = ["Makanan", "Minuman", "Snack"];
-
 export default function MenuForm({ isOpen, setIsOpen, item }: MenuFormProps) {
-  const { setMenuItems } = useData();
+  const { setMenuItems, categories } = useData();
   const { toast } = useToast();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 

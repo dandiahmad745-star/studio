@@ -49,10 +49,10 @@ const BaristaCard = ({ barista }: { barista: Barista }) => {
           </DialogDescription>
         </DialogHeader>
         {barista.instagram && (
-          <div className="flex justify-center">
+          <div className="flex justify-center pb-4">
             <Link href={`https://instagram.com/${barista.instagram}`} target="_blank" rel="noopener noreferrer">
               <Button>
-                <Instagram className="mr-2" />
+                <Instagram className="mr-2 h-4 w-4" />
                 @{barista.instagram}
               </Button>
             </Link>

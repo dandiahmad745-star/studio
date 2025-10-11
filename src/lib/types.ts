@@ -50,4 +50,21 @@ export interface Barista {
   bio: string;
   image: string;
   instagram?: string;
+  favoriteDrink?: string;
+  skills?: string[];
+}
+
+export interface Schedule {
+    date: string; // YYYY-MM-DD
+    baristaId: string;
+    shift: 'Morning' | 'Afternoon' | 'Night' | 'Off';
+}
+
+export interface LeaveRequest {
+    id: string;
+    baristaId: string;
+    startDate: string; // YYYY-MM-DD
+    endDate: string; // YYYY-MM-DD
+    reason: string;
+    status: 'Pending' | 'Approved' | 'Rejected';
 }

@@ -1,4 +1,4 @@
-import { MenuItem, Promotion, Review, ShopSettings, Barista } from '@/lib/types';
+import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const findImage = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
@@ -105,6 +105,8 @@ export const initialBaristas: Barista[] = [
       bio: 'Rian adalah kepala barista kami dengan pengalaman lebih dari 5 tahun. Spesialisasinya adalah latte art dan manual brew. Dia percaya bahwa setiap cangkir kopi adalah sebuah cerita yang menunggu untuk dinikmati.',
       image: findImage('barista-1'),
       instagram: 'rian.kopi',
+      favoriteDrink: 'V60',
+      skills: ['Latte Art', 'Manual Brew'],
     },
     {
       id: 'barista-2',
@@ -112,7 +114,23 @@ export const initialBaristas: Barista[] = [
       bio: 'Sari sangat bersemangat tentang kopi dan suka bereksperimen dengan resep-resep baru. Jangan ragu untuk bertanya rekomendasinya! Dia selalu senang berbagi pengetahuannya tentang biji kopi dari seluruh dunia.',
       image: findImage('barista-2'),
       instagram: 'sari.brews',
+      favoriteDrink: 'Caramel Macchiato',
+      skills: ['Espresso Expert', 'Recipe Creation'],
     },
 ];
 
 export const initialCategories: string[] = ["Makanan", "Minuman", "Snack"];
+
+export const initialSchedules: Schedule[] = [];
+export const initialLeaveRequests: LeaveRequest[] = [];
+
+export const leaveReasons = [
+    'Cuti Tahunan', 'Sakit dengan Surat Dokter', 'Sakit tanpa Surat Dokter', 'Keperluan Keluarga Mendesak', 'Pernikahan', 
+    'Melahirkan/Paternity', 'Duka Cita', 'Tugas Luar', 'Pendidikan/Pelatihan', 'Acara Keagamaan', 
+    'Mengurus Dokumen Penting', 'Bencana Alam', 'Perbaikan Rumah Darurat', 'Menghadiri Pernikahan Kerabat', 'Merawat Anggota Keluarga Sakit',
+    'Janji Temu Medis', 'Kelelahan (Burnout)', 'Hari Kesehatan Mental', 'Libur Tambahan (Unpaid)', 'Izin Setengah Hari (Pagi)',
+    'Izin Setengah Hari (Siang)', 'Kerja dari Rumah (jika memungkinkan)', 'Kecelakaan', 'Menghadiri Wisuda', 'Libur Nasional Tambahan',
+    'Menjadi Saksi di Pengadilan', 'Pemulihan Pasca Sakit', 'Donor Darah', 'Program Relawan', 'Urusan Bank/Pajak',
+    'Kendaraan Bermasalah', 'Menghadiri Seminar', 'Ujian Akademis', 'Acara Sekolah Anak', 'Isolasi Mandiri',
+    'Vaksinasi COVID-19', 'Efek Samping Vaksin', 'Keperluan Adat', 'Lain-lain (Memerlukan Keterangan)', 'Cuti Tidak Dibayar'
+];

@@ -5,10 +5,11 @@ import Loading from '../loading';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Instagram } from 'lucide-react';
+import { Instagram, Coffee } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Barista } from '@/lib/types';
 import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
 
 const BaristaCard = ({ barista }: { barista: Barista }) => {
   return (
@@ -44,10 +45,23 @@ const BaristaCard = ({ barista }: { barista: Barista }) => {
             />
           </div>
           <DialogTitle className="text-center font-headline text-3xl">{barista.name}</DialogTitle>
+           {barista.favoriteDrink && (
+             <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                <Coffee className="h-4 w-4" />
+                <span className="font-medium">Favorite:</span> {barista.favoriteDrink}
+             </div>
+           )}
           <DialogDescription className="text-center text-base py-4">
             {barista.bio}
           </DialogDescription>
         </DialogHeader>
+        {barista.skills && barista.skills.length > 0 && (
+             <div className="flex flex-wrap justify-center gap-2 px-6">
+                {barista.skills.map((skill) => (
+                  <Badge key={skill} variant="secondary">{skill}</Badge>
+                ))}
+              </div>
+        )}
         {barista.instagram && (
           <div className="flex justify-center pb-4">
             <Link href={`https://instagram.com/${barista.instagram}`} target="_blank" rel="noopener noreferrer">

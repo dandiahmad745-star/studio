@@ -35,6 +35,8 @@ export default function BaristaForm({ isOpen, setIsOpen, barista }: BaristaFormP
       bio: '',
       image: '',
       instagram: '',
+      favoriteDrink: '',
+      skills: [],
     },
   });
 
@@ -43,7 +45,9 @@ export default function BaristaForm({ isOpen, setIsOpen, barista }: BaristaFormP
       if (barista) {
         form.reset({
             ...barista,
-            instagram: barista.instagram || '', // Ensure instagram is always a string
+            instagram: barista.instagram || '',
+            favoriteDrink: barista.favoriteDrink || '',
+            skills: barista.skills || [],
         });
         setImagePreview(barista.image);
       } else {
@@ -52,6 +56,8 @@ export default function BaristaForm({ isOpen, setIsOpen, barista }: BaristaFormP
           bio: '',
           image: '',
           instagram: '',
+          favoriteDrink: '',
+          skills: [],
         });
         setImagePreview(null);
       }
@@ -87,7 +93,7 @@ export default function BaristaForm({ isOpen, setIsOpen, barista }: BaristaFormP
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{barista ? 'Edit Barista' : 'Add New Barista'}</DialogTitle>
         </DialogHeader>
@@ -127,6 +133,37 @@ export default function BaristaForm({ isOpen, setIsOpen, barista }: BaristaFormP
                   <FormLabel>Instagram Handle (without @)</FormLabel>
                   <FormControl>
                     <Input {...field} placeholder="rian.kopi" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="favoriteDrink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Favorite Drink</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="e.g., V60, Caramel Macchiato" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+             <FormField
+              control={form.control}
+              name="skills"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Skills (comma-separated)</FormLabel>
+                  <FormControl>
+                    <Input 
+                      {...field} 
+                      placeholder="e.g., Latte Art, Manual Brew"
+                      onChange={e => field.onChange(e.target.value.split(',').map(s => s.trim()))}
+                      value={Array.isArray(field.value) ? field.value.join(', ') : ''}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -64,5 +64,17 @@ export const baristaSchema = z.object({
     name: z.string().min(1, { message: "Name is required" }),
     bio: z.string().min(1, { message: "Bio is required" }),
     image: z.string().min(1, { message: "Image is required" }),
-    instagram: z.string().optional(),
+    instagram: z.string().optional().or(z.literal('')),
+    favoriteDrink: z.string().optional(),
+    skills: z.array(z.string()).optional(),
+});
+
+export const leaveRequestSchema = z.object({
+    baristaId: z.string().min(1, "Please select a barista."),
+    startDate: z.date({ required_error: 'Start date is required.' }),
+    endDate: z.date({ required_error: 'End date is required.' }),
+    reason: z.string().min(1, "Please select a reason."),
+}).refine(data => data.endDate >= data.startDate, {
+    message: 'End date cannot be before start date',
+    path: ['endDate'],
 });

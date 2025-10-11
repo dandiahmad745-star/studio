@@ -12,6 +12,7 @@ import { Skeleton } from '../ui/skeleton';
 import { useEffect, useState } from 'react';
 import { getShopStatus } from '@/lib/shop-status';
 import { Badge } from '../ui/badge';
+import PageTransitionLoader from './PageTransitionLoader';
 
 const mainNavLinks = [
   { href: '/', label: 'Menu', icon: Coffee },
@@ -78,6 +79,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <PageTransitionLoader />
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-3">

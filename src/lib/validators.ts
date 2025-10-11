@@ -109,4 +109,8 @@ export const membershipRegistrationSchema = z.object({
     fullName: z.string().min(3, { message: "Nama lengkap diperlukan." }),
     email: z.string().email({ message: "Alamat email tidak valid." }),
     birthDate: z.date({ required_error: "Tanggal lahir diperlukan." }),
+    nickname: z.string().optional(),
+    favoriteDrink: z.string().optional(),
+    visitTime: z.enum(['Pagi', 'Siang', 'Malam', 'Tidak Tentu']).optional(),
+    mainReason: z.string().optional(),
 });

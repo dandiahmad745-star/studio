@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -93,102 +94,104 @@ export default function BaristaForm({ isOpen, setIsOpen, barista }: BaristaFormP
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md grid-rows-[auto_1fr_auto] max-h-[90vh]">
         <DialogHeader>
           <DialogTitle>{barista ? 'Edit Barista' : 'Add New Barista'}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="bio"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Bio</FormLabel>
-                  <FormControl>
-                    <Textarea {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="instagram"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Instagram Handle (without @)</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="rian.kopi" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="favoriteDrink"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Favorite Drink</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="e.g., V60, Caramel Macchiato" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-             <FormField
-              control={form.control}
-              name="skills"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Skills (comma-separated)</FormLabel>
-                  <FormControl>
-                    <Input 
-                      {...field} 
-                      placeholder="e.g., Latte Art, Manual Brew"
-                      onChange={e => field.onChange(e.target.value.split(',').map(s => s.trim()))}
-                      value={Array.isArray(field.value) ? field.value.join(', ') : ''}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormItem>
-                <FormLabel>Image</FormLabel>
-                <FormControl>
-                    <Input type="file" accept="image/*" onChange={handleFileChange} />
-                </FormControl>
-                {imagePreview && (
-                    <div className="mt-2 relative w-full h-40">
-                    <Image src={imagePreview} alt="Preview" fill className="rounded-md object-cover" />
-                    </div>
-                )}
+          <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-rows-[1fr_auto] gap-4 overflow-hidden">
+            <div className="space-y-4 overflow-y-auto pr-2">
                 <FormField
-                  control={form.control}
-                  name="image"
-                  render={() => (
+                control={form.control}
+                name="name"
+                render={({ field }) => (
                     <FormItem>
-                      <FormMessage />
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                        <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
                     </FormItem>
-                  )}
+                )}
                 />
-            </FormItem>
+                <FormField
+                control={form.control}
+                name="bio"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Bio</FormLabel>
+                    <FormControl>
+                        <Textarea {...field} />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+                <FormField
+                control={form.control}
+                name="instagram"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Instagram Handle (without @)</FormLabel>
+                    <FormControl>
+                        <Input {...field} placeholder="rian.kopi" />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+                <FormField
+                control={form.control}
+                name="favoriteDrink"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Favorite Drink</FormLabel>
+                    <FormControl>
+                        <Input {...field} placeholder="e.g., V60, Caramel Macchiato" />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+                <FormField
+                control={form.control}
+                name="skills"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Skills (comma-separated)</FormLabel>
+                    <FormControl>
+                        <Input 
+                        {...field} 
+                        placeholder="e.g., Latte Art, Manual Brew"
+                        onChange={e => field.onChange(e.target.value.split(',').map(s => s.trim()))}
+                        value={Array.isArray(field.value) ? field.value.join(', ') : ''}
+                        />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+                <FormItem>
+                    <FormLabel>Image</FormLabel>
+                    <FormControl>
+                        <Input type="file" accept="image/*" onChange={handleFileChange} />
+                    </FormControl>
+                    {imagePreview && (
+                        <div className="mt-2 relative w-full h-40">
+                        <Image src={imagePreview} alt="Preview" fill className="rounded-md object-cover" />
+                        </div>
+                    )}
+                    <FormField
+                    control={form.control}
+                    name="image"
+                    render={() => (
+                        <FormItem>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                </FormItem>
+            </div>
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>
               <Button type="submit">Save</Button>

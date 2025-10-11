@@ -14,6 +14,7 @@ import { useData } from '../Providers';
 import { useToast } from '@/hooks/use-toast';
 import { MenuItem } from '@/lib/types';
 import Image from 'next/image';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 type MenuFormValues = z.infer<typeof menuItemSchema>;
 
@@ -22,6 +23,8 @@ interface MenuFormProps {
   setIsOpen: (open: boolean) => void;
   item: MenuItem | null;
 }
+
+const categories = ["Makanan", "Minuman", "Snack"];
 
 export default function MenuForm({ isOpen, setIsOpen, item }: MenuFormProps) {
   const { setMenuItems } = useData();
@@ -138,9 +141,18 @@ export default function MenuForm({ isOpen, setIsOpen, item }: MenuFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {categories.map(cat => (
+                            <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     <FormMessage />
                   </FormItem>
                 )}

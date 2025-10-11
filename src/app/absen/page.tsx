@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { useData } from "@/components/Providers";
 import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { addDays, format, startOfWeek } from 'date-fns';
@@ -11,6 +11,172 @@ import LeaveRequestForm from "@/components/barista/LeaveRequestForm";
 import { Schedule, Barista, LeaveRequest } from "@/lib/types";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Camera, Send, AlertTriangle } from "lucide-react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+
+const ClockInTab = ({ baristas, schedules }: { baristas: Barista[], schedules: Schedule[] }) => {
+    const { settings } = useData();
+    const { toast } = useToast();
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
+    const [capturedImage, setCapturedImage] = useState<string | null>(null);
+    const [selectedBaristaId, setSelectedBaristaId] = useState<string>('');
+
+    useEffect(() => {
+        const getCameraPermission = async () => {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            setHasCameraPermission(true);
+    
+            if (videoRef.current) {
+              videoRef.current.srcObject = stream;
+            }
+          } catch (error) {
+            console.error('Error accessing camera:', error);
+            setHasCameraPermission(false);
+            toast({
+              variant: 'destructive',
+              title: 'Camera Access Denied',
+              description: 'Please enable camera permissions in your browser settings.',
+            });
+          }
+        };
+    
+        getCameraPermission();
+    
+        return () => {
+          // Cleanup: stop video stream when component unmounts
+          if (videoRef.current && videoRef.current.srcObject) {
+            const stream = videoRef.current.srcObject as MediaStream;
+            stream.getTracks().forEach(track => track.stop());
+          }
+        };
+      }, [toast]);
+
+    const capturePhoto = () => {
+        if (!videoRef.current || !canvasRef.current) return;
+        const video = videoRef.current;
+        const canvas = canvasRef.current;
+        
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        const context = canvas.getContext('2d');
+        context?.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        
+        const dataUrl = canvas.toDataURL('image/jpeg');
+        setCapturedImage(dataUrl);
+    };
+
+    const resetCapture = () => {
+        setCapturedImage(null);
+    };
+
+    const getShiftForToday = useCallback((baristaId: string): string => {
+        const todayString = format(new Date(), 'yyyy-MM-dd');
+        const schedule = schedules.find(s => s.baristaId === baristaId && s.date === todayString);
+        return schedule ? schedule.shift : 'Off';
+    }, [schedules]);
+
+    const sendWhatsAppMessage = () => {
+        if (!selectedBaristaId) return;
+        const barista = baristas.find(b => b.id === selectedBaristaId);
+        if (!barista) return;
+
+        const shift = getShiftForToday(selectedBaristaId);
+        const time = format(new Date(), 'HH:mm');
+
+        const message = `*ABSENSI MASUK*%0A%0A*Nama:* ${barista.name}%0A*Tanggal:* ${format(new Date(), 'd MMMM yyyy')}%0A*Jam Masuk:* ${time}%0A*Shift:* ${shift}%0A%0ATerima kasih.`;
+        
+        // Use a placeholder phone number if not set in settings
+        const phoneNumber = settings.phone ? settings.phone.replace(/[^0-9]/g, '') : '6281234567890';
+        
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+        window.open(whatsappUrl, '_blank');
+        setCapturedImage(null); // Close dialog
+    };
+    
+    const selectedBaristaShift = useMemo(() => {
+        if (!selectedBaristaId) return null;
+        return getShiftForToday(selectedBaristaId);
+    }, [selectedBaristaId, getShiftForToday]);
+
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>Absen Masuk</CardTitle>
+                <CardDescription>Pilih nama Anda, ambil foto, lalu kirim absen melalui WhatsApp.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                {hasCameraPermission === false && (
+                    <Alert variant="destructive">
+                        <AlertTriangle className="h-4 w-4" />
+                        <AlertTitle>Kamera Tidak Tersedia</AlertTitle>
+                        <AlertDescription>
+                            Izin kamera diperlukan untuk fitur ini. Mohon aktifkan di pengaturan browser Anda.
+                        </AlertDescription>
+                    </Alert>
+                )}
+                
+                <div className="space-y-2">
+                    <label className="text-sm font-medium">Nama Barista</label>
+                    <Select onValueChange={setSelectedBaristaId} value={selectedBaristaId} disabled={!hasCameraPermission}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Pilih nama Anda..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {baristas.map(barista => (
+                                <SelectItem key={barista.id} value={barista.id}>{barista.name}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    {selectedBaristaId && (
+                         <p className="text-sm text-muted-foreground">Jadwal hari ini: <span className="font-bold">{selectedBaristaShift}</span></p>
+                    )}
+                </div>
+
+                <div className="relative w-full aspect-video bg-muted rounded-md overflow-hidden flex items-center justify-center">
+                    <video ref={videoRef} className={cn("w-full h-full object-cover", !hasCameraPermission && 'hidden')} autoPlay muted playsInline />
+                    {!hasCameraPermission && <Camera className="h-16 w-16 text-muted-foreground" />}
+                </div>
+
+                <Button onClick={capturePhoto} className="w-full" disabled={!selectedBaristaId || !hasCameraPermission}>
+                    <Camera className="mr-2 h-4 w-4"/>
+                    Ambil Foto Absen
+                </Button>
+                
+                {/* Hidden canvas for capturing photo */}
+                <canvas ref={canvasRef} style={{ display: 'none' }} />
+
+                {/* Confirmation Dialog */}
+                <AlertDialog open={!!capturedImage} onOpenChange={(open) => !open && setCapturedImage(null)}>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Konfirmasi Absen</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Apakah Anda yakin ingin mengirim foto ini sebagai bukti absen masuk?
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <img src={capturedImage || ''} alt="Captured" className="rounded-md aspect-video object-cover" />
+                        <AlertDialogFooter>
+                            <AlertDialogCancel onClick={resetCapture}>Ambil Ulang</AlertDialogCancel>
+                            <AlertDialogAction onClick={sendWhatsAppMessage}>
+                                <Send className="mr-2 h-4 w-4"/>
+                                Kirim via WhatsApp
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </CardContent>
+        </Card>
+    );
+};
+
 
 const LeaveRequestHistory = ({ requests, baristas }: { requests: LeaveRequest[], baristas: Barista[] }) => {
     const [selectedBaristaId, setSelectedBaristaId] = useState<string>('');
@@ -80,6 +246,7 @@ const LeaveRequestHistory = ({ requests, baristas }: { requests: LeaveRequest[],
 
 export default function BaristaAbsenPage() {
   const { baristas, schedules, leaveRequests, isLoading } = useData();
+  const [activeTab, setActiveTab] = useState("schedule");
 
   if (isLoading) {
     return (
@@ -106,16 +273,20 @@ export default function BaristaAbsenPage() {
           Portal Barista
         </h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          Lihat jadwal Anda, ajukan cuti, dan lihat riwayat pengajuan di sini.
+          Absen masuk, lihat jadwal, dan ajukan cuti di sini.
         </p>
       </div>
 
-      <Tabs defaultValue="schedule">
-        <TabsList className="grid w-full grid-cols-3">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="clock-in">Absen Masuk</TabsTrigger>
             <TabsTrigger value="schedule">Jadwal Minggu Ini</TabsTrigger>
             <TabsTrigger value="leave">Ajukan Cuti/Izin</TabsTrigger>
             <TabsTrigger value="history">Riwayat Pengajuan</TabsTrigger>
         </TabsList>
+        <TabsContent value="clock-in">
+            <ClockInTab baristas={baristas} schedules={schedules} />
+        </TabsContent>
         <TabsContent value="schedule">
             <Card>
                 <CardHeader>

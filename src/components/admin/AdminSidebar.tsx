@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -23,7 +24,7 @@ const adminNavLinks = [
   { href: '/admin/reviews', label: 'Reviews', icon: MessageSquare },
   { href: '/admin/baristas', label: 'Baristas', icon: Users },
   { href: '/admin/schedule', label: 'Schedule', icon: CalendarClock },
-  { href: '/admin/leave-requests', label: 'Leave Requests', icon: Send },
+  { href: '/admin/leave-requests', label: 'Leave Requests', icon: Send, notificationKey: 'leave' },
   { href: '/admin/jobs', label: 'Job Vacancies', icon: Briefcase },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
@@ -31,7 +32,16 @@ const adminNavLinks = [
 export default function AdminSidebar() {
   const pathname = usePathname();
   const { logout } = useAuth();
-  const { settings } = useData();
+  const { settings, leaveRequests } = useData();
+  
+  const pendingLeaveRequests = leaveRequests.filter(req => req.status === 'Pending').length;
+
+  const hasNotification = (key?: string) => {
+    if (key === 'leave' && pendingLeaveRequests > 0) {
+      return true;
+    }
+    return false;
+  };
 
   const isExactOrParent = (href: string) => {
     if (href === '/admin') {
@@ -60,10 +70,13 @@ export default function AdminSidebar() {
               <Link href={link.href} className="w-full">
                 <SidebarMenuButton
                   isActive={isExactOrParent(link.href)}
-                  className="w-full justify-start"
+                  className="w-full justify-start relative"
                 >
                   <link.icon className="h-4 w-4" />
                   <span>{link.label}</span>
+                  {hasNotification(link.notificationKey) && (
+                     <span className="absolute right-3 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-red-500"></span>
+                  )}
                 </SidebarMenuButton>
               </Link>
             </SidebarMenuItem>

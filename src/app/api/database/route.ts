@@ -1,5 +1,5 @@
 // This is a new file
-import { getStore } from '@netlify/blob';
+import { getStore } from '@netlify/blobs';
 import { NextResponse } from 'next/server';
 import { initialDatabase } from '@/lib/database';
 

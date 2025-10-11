@@ -9,6 +9,8 @@ import { cn } from '@/lib/utils';
 import { useData } from '../Providers';
 import Image from 'next/image';
 import { Skeleton } from '../ui/skeleton';
+import { useEffect, useState } from 'react';
+import { getShopStatus } from '@/lib/shop-status';
 
 const navLinks = [
   { href: '/', label: 'Menu', icon: Coffee },
@@ -20,6 +22,20 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const { settings, isLoading } = useData();
+  const [shopStatus, setShopStatus] = useState<{isOpen: boolean; message: string} | null>(null);
+
+  useEffect(() => {
+    if (!isLoading && settings.operatingHours) {
+        const updateStatus = () => {
+            const status = getShopStatus(settings.operatingHours);
+            setShopStatus(status);
+        };
+        updateStatus();
+        const intervalId = setInterval(updateStatus, 60000); // Check every minute
+        return () => clearInterval(intervalId);
+    }
+  }, [isLoading, settings.operatingHours]);
+
 
   const renderNavLinks = (isMobile = false) =>
     navLinks.map((link) => (
@@ -48,9 +64,17 @@ export default function Header() {
             ) : settings.logo && (
                 <Image src={settings.logo} alt="logo" width={40} height={40} className="rounded-full" />
             )}
-          <span className="hidden font-headline text-xl font-bold sm:inline-block">
-             {isLoading ? <Skeleton className="h-6 w-32" /> : settings.name}
-          </span>
+          <div className='flex flex-col'>
+            <span className="font-headline text-xl font-bold sm:inline-block">
+                {isLoading ? <Skeleton className="h-6 w-32" /> : settings.name}
+            </span>
+            {shopStatus && (
+                <div className='flex items-center gap-1.5'>
+                    <span className={cn('h-2.5 w-2.5 rounded-full', shopStatus.isOpen ? 'bg-green-500' : 'bg-red-500')}></span>
+                    <p className='text-xs text-muted-foreground'>{shopStatus.message}</p>
+                </div>
+            )}
+          </div>
         </Link>
 
         <nav className="hidden items-center gap-2 md:flex">

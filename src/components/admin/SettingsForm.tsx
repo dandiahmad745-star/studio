@@ -43,7 +43,15 @@ export default function SettingsForm() {
   };
 
   function onSubmit(data: SettingsFormValues) {
-    setSettings(data);
+    // Only update the general fields, not operating hours
+    setSettings(prev => ({
+        ...prev,
+        name: data.name,
+        address: data.address,
+        phone: data.phone,
+        email: data.email,
+        logo: data.logo,
+    }));
     toast({
       title: 'Settings Saved',
       description: 'Your shop details have been updated.',

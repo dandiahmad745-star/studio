@@ -33,10 +33,28 @@ export const reviewReplySchema = z.object({
   reply: z.string().min(1, { message: 'Reply cannot be empty' }),
 });
 
+const dayHoursSchema = z.object({
+    isOpen: z.boolean(),
+    open: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: "Invalid time format (HH:mm)" }),
+    close: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: "Invalid time format (HH:mm)" }),
+});
+
+export const operatingHoursSchema = z.object({
+  monday: dayHoursSchema,
+  tuesday: dayHoursSchema,
+  wednesday: dayHoursSchema,
+  thursday: dayHoursSchema,
+  friday: dayHoursSchema,
+  saturday: dayHoursSchema,
+  sunday: dayHoursSchema,
+});
+
+
 export const settingsSchema = z.object({
   name: z.string().min(1, { message: 'Shop name is required' }),
   address: z.string().min(1, { message: 'Address is required' }),
   phone: z.string().min(1, { message: 'Phone number is required' }),
   email: z.string().email({ message: 'Invalid email address' }),
   logo: z.string().min(1, { message: 'Logo is required' }),
+  operatingHours: operatingHoursSchema.optional(),
 });

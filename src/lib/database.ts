@@ -87,4 +87,13 @@ export const initialShopSettings: ShopSettings = {
   phone: '555-123-4567',
   email: 'hello@kopimikafe.com',
   logo: findImage('cafe-logo'),
+  operatingHours: {
+    monday: { isOpen: true, open: '08:00', close: '22:00' },
+    tuesday: { isOpen: true, open: '08:00', close: '22:00' },
+    wednesday: { isOpen: true, open: '08:00', close: '22:00' },
+    thursday: { isOpen: true, open: '08:00', close: '22:00' },
+    friday: { isOpen: true, open: '08:00', close: '22:00' },
+    saturday: { isOpen: true, open: '09:00', close: '23:00' },
+    sunday: { isOpen: false, open: '09:00', close: '23:00' },
+  }
 };

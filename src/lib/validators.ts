@@ -99,3 +99,10 @@ export const jobVacancySchema = z.object({
     type: z.enum(['Full-time', 'Part-time', 'Internship']),
     isActive: z.boolean(),
 });
+
+export const customerMessageSchema = z.object({
+    customerName: z.string().min(1, "Nama Anda wajib diisi."),
+    message: z.string().min(1, "Pesan tidak boleh kosong."),
+    baristaId: z.string(),
+    baristaName: z.string(),
+});

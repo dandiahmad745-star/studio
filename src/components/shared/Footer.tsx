@@ -28,11 +28,6 @@ export default function Footer() {
                     <p>{settings.address}</p>
                     <p>{settings.phone} | {settings.email}</p>
                 </div>
-                <div>
-                    <Link href="/absen" className="font-medium text-primary hover:underline">
-                        Portal Barista
-                    </Link>
-                </div>
                 <p className="mt-4">&copy; {new Date().getFullYear()} {settings.name}. All Rights Reserved.</p>
             </div>
         </footer>

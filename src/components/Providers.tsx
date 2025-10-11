@@ -10,38 +10,29 @@ import { initialMenuItems, initialPromotions, initialReviews, initialShopSetting
 function usePersistentState<T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>, boolean] {
   const [isInitialized, setIsInitialized] = useState(false);
 
-  const [state, setState] = useState<T>(() => {
-    // We can't use localStorage on the server, so we return initialValue
-    if (typeof window === 'undefined') {
-      return initialValue;
-    }
-    try {
-      const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.error(`Error reading localStorage key “${key}”:`, error);
-      return initialValue;
-    }
-  });
+  const [state, setState] = useState<T>(initialValue);
 
   useEffect(() => {
-    // This effect runs on the client after hydration
-    if (typeof window !== 'undefined') {
-      try {
-        const item = window.localStorage.getItem(key);
-        if (item) {
-          setState(JSON.parse(item));
-        }
-      } catch (error) {
-         console.error(`Error reading localStorage key “${key}”:`, error);
-      } finally {
-        setIsInitialized(true);
+    // This effect runs only on the client, after initial hydration
+    try {
+      const item = window.localStorage.getItem(key);
+      if (item) {
+        setState(JSON.parse(item));
+      } else {
+        // If no item in localStorage, initialize it with the default value
+        window.localStorage.setItem(key, JSON.stringify(initialValue));
+        setState(initialValue);
       }
+    } catch (error) {
+      console.error(`Error reading localStorage key “${key}”:`, error);
+      setState(initialValue);
+    } finally {
+        setIsInitialized(true);
     }
   }, [key]);
 
   useEffect(() => {
-    if (isInitialized && typeof window !== 'undefined') {
+    if (isInitialized) {
       try {
         window.localStorage.setItem(key, JSON.stringify(state));
       } catch (error) {

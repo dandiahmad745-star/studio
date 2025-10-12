@@ -11,7 +11,7 @@ import { Barista } from '@/lib/types';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
-import TemplateChatDialog from '@/components/barista/TemplateChatDialog';
+import ChatDialog from '@/components/barista/ChatDialog';
 
 const BaristaCard = ({ barista }: { barista: Barista }) => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -91,7 +91,7 @@ const BaristaCard = ({ barista }: { barista: Barista }) => {
           )}
         </DialogContent>
       </Dialog>
-      <TemplateChatDialog isOpen={isChatOpen} setIsOpen={setIsChatOpen} barista={barista} />
+      <ChatDialog isOpen={isChatOpen} setIsOpen={setIsChatOpen} barista={barista} />
     </>
   );
 };

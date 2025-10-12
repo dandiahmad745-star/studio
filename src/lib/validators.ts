@@ -101,8 +101,8 @@ export const jobVacancySchema = z.object({
 });
 
 export const customerMessageSchema = z.object({
-    customerName: z.string().min(1, { message: "Your name is required." }),
-    message: z.string().min(1, { message: "Please select a message." }),
+    customerName: z.string().min(1, { message: "Nama Anda wajib diisi." }),
+    message: z.string(), // Message is now optional at base level, will be required in the form
 });
 
 export const registrationSchema = z.object({

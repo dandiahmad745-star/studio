@@ -81,7 +81,7 @@ const initialReviews: Review[] = [
   },
 ];
 
-const initialShopSettings: ShopSettings = {
+export const initialShopSettings: ShopSettings = {
   name: 'Kopimi Kafe',
   address: '123 Coffee Lane, Flavor Town, 12345',
   phone: '555-123-4567',
@@ -181,16 +181,3 @@ export const medicalLeaveReasons = [
     'Efek Samping Vaksin',
     'Donor Darah',
 ];
-
-export const getMessageTemplates = (baristaName: string): string[] => {
-    return [
-        `Hai ${baristaName}, kopinya enak banget!`,
-        `Tolong sampaikan ke ${baristaName}, latte art-nya keren!`,
-        `Aku suka banget sama rekomendasi kopi dari ${baristaName}.`,
-        `Kapan ${baristaName} ada jadwal lagi?`,
-        `Mau tanya dong, ${baristaName} pakai biji kopi apa ya kemarin?`,
-        `Nitip salam buat ${baristaName} ya, pelayanannya ramah banget.`,
-        `Buatin kopi seenak buatan ${baristaName} lagi ya!`,
-        `${baristaName} hebat! Bikin hariku jadi lebih semangat.`,
-    ];
-};

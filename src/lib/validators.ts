@@ -105,6 +105,13 @@ export const customerMessageSchema = z.object({
     message: z.string(), // Message is now optional at base level, will be required in the form
 });
 
+export const galleryImageSchema = z.object({
+    id: z.string().optional(),
+    title: z.string().min(1, { message: "Title is required" }),
+    description: z.string().min(1, { message: "Description is required" }),
+    image: z.string().min(1, { message: "Image is required" }),
+});
+
 export const registrationSchema = z.object({
     fullName: z.string().min(1, { message: 'Nama lengkap wajib diisi' }),
     email: z.string().email({ message: 'Alamat email tidak valid' }),

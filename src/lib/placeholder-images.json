@@ -47,6 +47,42 @@
       "description": "A friendly female barista",
       "imageUrl": "https://picsum.photos/seed/barista2/400/400",
       "imageHint": "female barista"
+    },
+    {
+      "id": "gallery-1",
+      "description": "Cozy cafe interior in the morning",
+      "imageUrl": "https://picsum.photos/seed/gallery1/600/400",
+      "imageHint": "cafe interior"
+    },
+    {
+      "id": "gallery-2",
+      "description": "Close-up of a latte art heart",
+      "imageUrl": "https://picsum.photos/seed/gallery2/400/600",
+      "imageHint": "latte art"
+    },
+    {
+      "id": "gallery-3",
+      "description": "A person reading a book in a cafe corner",
+      "imageUrl": "https://picsum.photos/seed/gallery3/600/400",
+      "imageHint": "reading book"
+    },
+    {
+      "id": "gallery-4",
+      "description": "Group of friends laughing in a cafe",
+      "imageUrl": "https://picsum.photos/seed/gallery4/600/400",
+      "imageHint": "friends laughing"
+    },
+    {
+      "id": "gallery-5",
+      "description": "A close-up of a chocolate croissant",
+      "imageUrl": "https://picsum.photos/seed/gallery5/600/400",
+      "imageHint": "chocolate croissant"
+    },
+    {
+      "id": "gallery-6",
+      "description": "Cafe outdoor seating area in the evening",
+      "imageUrl": "https://picsum.photos/seed/gallery6/600/400",
+      "imageHint": "outdoor seating"
     }
   ]
 }

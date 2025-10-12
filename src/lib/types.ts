@@ -1,5 +1,6 @@
 
 
+
 export interface MenuItem {
   id: string;
   name: string;
@@ -93,6 +94,13 @@ export interface CustomerMessage {
     status: 'read' | 'unread';
 }
 
+export interface GalleryImage {
+    id: string;
+    title: string;
+    description: string;
+    image: string; // Base64 data URL or placeholder URL
+}
+
 export interface Database {
     menuItems: MenuItem[];
     promotions: Promotion[];
@@ -104,4 +112,5 @@ export interface Database {
     leaveRequests: LeaveRequest[];
     jobVacancies: JobVacancy[];
     customerMessages: CustomerMessage[];
+    galleryImages: GalleryImage[];
 }

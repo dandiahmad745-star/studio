@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import PageHeader from '@/components/admin/PageHeader';
-import { Coffee, Gift, MessageSquare, Settings, ArrowRight, Users, CalendarClock, Send, Briefcase, QrCode, MessageCircle } from 'lucide-react';
+import { Coffee, Gift, MessageSquare, Settings, ArrowRight, Users, CalendarClock, Send, Briefcase, QrCode, MessageCircle, GalleryHorizontal } from 'lucide-react';
 import { useData } from '@/components/Providers';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -56,6 +56,12 @@ const dashboardItems = [
     description: 'Manage job postings.',
     icon: Briefcase,
   },
+  {
+    href: '/admin/gallery',
+    title: 'Gallery Management',
+    description: 'Upload and manage gallery images.',
+    icon: GalleryHorizontal,
+  },
     {
     href: '/admin/absen-qr',
     title: 'Absen QR Code',
@@ -78,7 +84,7 @@ export default function AdminDashboardPage() {
             <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
                 <PageHeader title="Admin Dashboard" description="Welcome to your shop management center." />
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {[...Array(10)].map((_, i) => (
+                    {[...Array(11)].map((_, i) => (
                         <Card key={i}>
                             <CardHeader>
                                 <Skeleton className="h-6 w-3/4" />

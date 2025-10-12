@@ -4,7 +4,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Toaster } from "@/components/ui/toaster";
-import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage } from '@/lib/types';
+import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage, GalleryImage } from '@/lib/types';
 import { initialDatabase } from '@/lib/database';
 import { useToast } from '@/hooks/use-toast';
 import _ from 'lodash';
@@ -21,6 +21,7 @@ type Database = {
   leaveRequests: LeaveRequest[];
   jobVacancies: JobVacancy[];
   customerMessages: CustomerMessage[];
+  galleryImages: GalleryImage[];
 };
 
 type Setters = {
@@ -34,6 +35,7 @@ type Setters = {
   setLeaveRequests: React.Dispatch<React.SetStateAction<LeaveRequest[]>>;
   setJobVacancies: React.Dispatch<React.SetStateAction<JobVacancy[]>>;
   setCustomerMessages: React.Dispatch<React.SetStateAction<CustomerMessage[]>>;
+  setGalleryImages: React.Dispatch<React.SetStateAction<GalleryImage[]>>;
 };
 
 // --- AUTH CONTEXT ---
@@ -174,6 +176,7 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
     leaveRequests: db?.leaveRequests ?? [],
     jobVacancies: db?.jobVacancies ?? [],
     customerMessages: db?.customerMessages ?? [],
+    galleryImages: db?.galleryImages ?? [],
     setMenuItems: createSetter('menuItems'),
     setPromotions: createSetter('promotions'),
     setReviews: createSetter('reviews'),
@@ -184,6 +187,7 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
     setLeaveRequests: createSetter('leaveRequests'),
     setJobVacancies: createSetter('jobVacancies'),
     setCustomerMessages: createSetter('customerMessages'),
+    setGalleryImages: createSetter('galleryImages'),
     isLoading: isLoading || !db,
   };
 

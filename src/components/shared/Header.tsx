@@ -4,7 +4,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Coffee, Menu, Gift, MessageSquare, Clock, Users, Briefcase, Music } from 'lucide-react';
+import { Coffee, Menu, Gift, MessageSquare, Clock, Users, Briefcase, Music, GalleryHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
@@ -21,6 +21,7 @@ const mainNavLinks = [
   { href: '/promotions', label: 'Promotions', icon: Gift },
   { href: '/reviews', label: 'Reviews', icon: MessageSquare },
   { href: '/baristas', label: 'Our Baristas', icon: Users },
+  { href: '/gallery', label: 'Gallery', icon: GalleryHorizontal },
 ];
 
 const MobileLink = ({ href, children, onClick }: { href: string, children: React.ReactNode, onClick?: () => void }) => (

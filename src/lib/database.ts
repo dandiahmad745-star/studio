@@ -1,4 +1,4 @@
-import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage, Database } from '@/lib/types';
+import { MenuItem, Promotion, Review, ShopSettings, Barista, Schedule, LeaveRequest, JobVacancy, CustomerMessage, Database, GalleryImage } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const findImage = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
@@ -146,6 +146,15 @@ const initialJobVacancies: JobVacancy[] = [
     },
 ];
 
+const initialGalleryImages: GalleryImage[] = [
+    { id: 'gallery-1', title: 'Suasana Pagi', description: 'Cahaya matahari pagi yang hangat menyinari sudut kafe favorit kami.', image: findImage('gallery-1') },
+    { id: 'gallery-2', title: 'Latte Art', description: 'Kreasi seni di atas secangkir latte oleh barista kami.', image: findImage('gallery-2') },
+    { id: 'gallery-3', title: 'Sudut Baca', description: 'Tempat yang tenang dan nyaman untuk menikmati buku bersama kopi.', image: findImage('gallery-3') },
+    { id: 'gallery-4', title: 'Kumpul Komunitas', description: 'Momen kebersamaan dalam acara komunitas mingguan kami.', image: findImage('gallery-4') },
+    { id: 'gallery-5', title: 'Croissant Cokelat', description: 'Croissant renyah dengan isian cokelat lumer yang menggugah selera.', image: findImage('gallery-5') },
+    { id: 'gallery-6', title: 'Outdoor Area', description: 'Area outdoor kami yang sejuk, sempurna untuk bersantai di sore hari.', image: findImage('gallery-6') },
+];
+
 export const initialDatabase: Database = {
     menuItems: initialMenuItems,
     promotions: initialPromotions,
@@ -156,7 +165,8 @@ export const initialDatabase: Database = {
     schedules: initialSchedules,
     leaveRequests: initialLeaveRequests,
     jobVacancies: initialJobVacancies,
-    customerMessages: initialCustomerMessages
+    customerMessages: initialCustomerMessages,
+    galleryImages: initialGalleryImages,
 };
 
 

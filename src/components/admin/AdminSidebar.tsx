@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarFooter
 } from '../ui/sidebar';
-import { Coffee, Gift, LayoutDashboard, LogOut, MessageSquare, Settings, Users, FolderKanban, CalendarClock, Send, Briefcase, QrCode, MessageCircle } from 'lucide-react';
+import { Coffee, Gift, LayoutDashboard, LogOut, MessageSquare, Settings, Users, FolderKanban, CalendarClock, Send, Briefcase, QrCode, MessageCircle, GalleryHorizontal } from 'lucide-react';
 import Image from 'next/image';
 
 const adminNavLinks = [
@@ -26,6 +26,7 @@ const adminNavLinks = [
   { href: '/admin/schedule', label: 'Schedule', icon: CalendarClock },
   { href: '/admin/leave-requests', label: 'Leave Requests', icon: Send, notificationKey: 'leave' },
   { href: '/admin/jobs', label: 'Job Vacancies', icon: Briefcase },
+  { href: '/admin/gallery', label: 'Gallery', icon: GalleryHorizontal },
   { href: '/admin/absen-qr', label: 'Absen QR Code', icon: QrCode },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];

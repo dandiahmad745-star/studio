@@ -3,85 +3,85 @@
     {
       "id": "coffee-1",
       "description": "A cup of latte with art",
-      "imageUrl": "https://picsum.photos/seed/coffee1/400/300",
+      "imageUrl": "https://images.unsplash.com/photo-1572442388858-bbd981793383?q=80&w=400&h=300&fit=crop",
       "imageHint": "latte art"
     },
     {
       "id": "coffee-2",
       "description": "A cup of black coffee",
-      "imageUrl": "https://picsum.photos/seed/coffee2/400/300",
+      "imageUrl": "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=400&h=300&fit=crop",
       "imageHint": "black coffee"
     },
     {
       "id": "pastry-1",
       "description": "A croissant on a plate",
-      "imageUrl": "https://picsum.photos/seed/pastry1/400/300",
+      "imageUrl": "https://images.unsplash.com/photo-1587241321921-91a834d6d191?q=80&w=400&h=300&fit=crop",
       "imageHint": "croissant plate"
     },
     {
       "id": "sandwich-1",
       "description": "A delicious club sandwich",
-      "imageUrl": "https://picsum.photos/seed/sandwich1/400/300",
+      "imageUrl": "https://images.unsplash.com/photo-1567234669013-2673a8713f28?q=80&w=400&h=300&fit=crop",
       "imageHint": "club sandwich"
     },
     {
       "id": "juice-1",
       "description": "Freshly squeezed orange juice",
-      "imageUrl": "https://picsum.photos/seed/juice1/400/300",
+      "imageUrl": "https://images.unsplash.com/photo-1600271886742-f049cd452bba?q=80&w=400&h=300&fit=crop",
       "imageHint": "orange juice"
     },
     {
       "id": "cafe-logo",
       "description": "Kopimi Kafe logo",
-      "imageUrl": "https://picsum.photos/seed/logo/200/200",
+      "imageUrl": "https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=200&h=200&fit=crop",
       "imageHint": "cafe logo"
     },
     {
       "id": "barista-1",
       "description": "A friendly male barista",
-      "imageUrl": "https://picsum.photos/seed/barista1/400/400",
+      "imageUrl": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=400&h=400&fit=crop",
       "imageHint": "male barista"
     },
     {
       "id": "barista-2",
       "description": "A friendly female barista",
-      "imageUrl": "https://picsum.photos/seed/barista2/400/400",
+      "imageUrl": "https://images.unsplash.com/photo-1579503841516-e0bd7fca5faa?q=80&w=400&h=400&fit=crop",
       "imageHint": "female barista"
     },
     {
       "id": "gallery-1",
       "description": "Cozy cafe interior in the morning",
-      "imageUrl": "https://picsum.photos/seed/gallery1/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1497515114629-f71d76dc510f?q=80&w=600&h=400&fit=crop",
       "imageHint": "cafe interior"
     },
     {
       "id": "gallery-2",
       "description": "Close-up of a latte art heart",
-      "imageUrl": "https://picsum.photos/seed/gallery2/400/600",
+      "imageUrl": "https://images.unsplash.com/photo-1557240360-a0a4a7541134?q=80&w=400&h=600&fit=crop",
       "imageHint": "latte art"
     },
     {
       "id": "gallery-3",
       "description": "A person reading a book in a cafe corner",
-      "imageUrl": "https://picsum.photos/seed/gallery3/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1519671482749-fd09be7c5bf5?q=80&w=600&h=400&fit=crop",
       "imageHint": "reading book"
     },
     {
       "id": "gallery-4",
       "description": "Group of friends laughing in a cafe",
-      "imageUrl": "https://picsum.photos/seed/gallery4/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600&h=400&fit=crop",
       "imageHint": "friends laughing"
     },
     {
       "id": "gallery-5",
       "description": "A close-up of a chocolate croissant",
-      "imageUrl": "https://picsum.photos/seed/gallery5/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1621832444338-F57876c666a7?q=80&w=600&h=400&fit=crop",
       "imageHint": "chocolate croissant"
     },
     {
       "id": "gallery-6",
       "description": "Cafe outdoor seating area in the evening",
-      "imageUrl": "https://picsum.photos/seed/gallery6/600/400",
+      "imageUrl": "https://images.unsplash.com/photo-1580203525366-4a4b14a84949?q=80&w=600&h=400&fit=crop",
       "imageHint": "outdoor seating"
     }
   ]

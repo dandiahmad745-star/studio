@@ -1,6 +1,7 @@
 
 
 
+
 export interface MenuItem {
   id: string;
   name: string;
@@ -8,6 +9,7 @@ export interface MenuItem {
   price: number;
   category: string;
   image: string; // Base64 data URL or placeholder URL
+  youtubeVideoUrl?: string;
 }
 
 export interface Promotion {

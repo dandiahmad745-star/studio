@@ -1,3 +1,4 @@
+
 import { z } from 'zod';
 import { medicalLeaveReasons } from './database';
 
@@ -8,6 +9,7 @@ export const menuItemSchema = z.object({
   price: z.coerce.number().positive({ message: 'Price must be a positive number' }),
   category: z.string().min(1, { message: 'Category is required' }),
   image: z.string().min(1, { message: 'Image is required' }),
+  youtubeVideoUrl: z.string().url({ message: "Please enter a valid YouTube URL." }).optional().or(z.literal('')),
 });
 
 export const promotionSchema = z.object({
